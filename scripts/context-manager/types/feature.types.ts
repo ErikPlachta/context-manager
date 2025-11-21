@@ -1,3 +1,5 @@
+import { RoutingMap } from "./routing.types";
+
 export interface FeatureResult<T = unknown> {
   success: boolean;
   details?: string;
@@ -12,7 +14,7 @@ export interface SyncTemplatesResult extends FeatureResult {
   updatedFiles?: string[];
 }
 
-export interface GeneratePathDocsResult extends FeatureResult {
+export interface GeneratePathDocsResult extends FeatureResult<RoutingMap> {
   routes?: string[];
 }
 
