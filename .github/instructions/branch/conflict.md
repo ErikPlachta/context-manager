@@ -1,0 +1,2 @@
+ask user
+zero assumptions
