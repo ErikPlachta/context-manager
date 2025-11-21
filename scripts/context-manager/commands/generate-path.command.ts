@@ -1,6 +1,6 @@
 import path from "path";
 import { CommandHandler, CommandResult } from "../types/command.types";
-import { loadDefaultConfig } from "../.bin/configs/config.default";
+import { loadDefaultConfig } from "../.bin/utils/config.utils";
 import { generatePathRouting } from "../features/path-routing-generator";
 
 export const generatePathCommand: CommandHandler = async ({ cwd }): Promise<CommandResult> => {
