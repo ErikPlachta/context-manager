@@ -1,5 +1,5 @@
 import { CommandHandler, CommandResult } from "../types/command.types";
-import { loadDefaultConfig } from "../.bin/configs/config.default";
+import { loadDefaultConfig } from "../.bin/utils/config.utils";
 import { checkForDrift } from "../features/drift-checker";
 
 export const statusCommand: CommandHandler = async ({ cwd }): Promise<CommandResult> => {

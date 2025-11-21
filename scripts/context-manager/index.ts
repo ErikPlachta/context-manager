@@ -1,4 +1,4 @@
-import { loadConfig, loadDefaultConfig } from "./.bin/configs/config.default";
+import { loadConfig, loadDefaultConfig } from "./.bin/utils/config.utils";
 import { installTemplates as installTemplatesFeature } from "./features/template-installer";
 import { generatePathRouting } from "./features/path-routing-generator";
 import { generateDocsForRouting } from "./features/doc-generator";
