@@ -10,7 +10,7 @@ export const manageTodoTemplates = async (
   const files = [
     {
       relativePath: path.join(targetDir, "TODO.md"),
-      contents: "# TODO\n"
+      contents: `# todo-current\n\nstatus: ⏳ | ✔ | 🚫 | ❌\nsingle P1 parent only\n\n- [ ] P1: <objective>\n  - [ ] <step>\n`
     }
   ];
   await writeTemplateFiles(targetDir, files, context);

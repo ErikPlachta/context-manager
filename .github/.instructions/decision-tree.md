@@ -15,6 +15,15 @@ nodes:
 8 recovery → branch/recovery.md
 9 conflict → branch/conflict.md
 
+flow:
+start → path (if ambiguous → conflict)
+path → classify → plan → prereq
+prereq pass → execute → verify
+verify pass → commit → reconcile → done
+verify fail once → execute (retry)
+verify fail twice → recovery
+any unknown → conflict
+
 rule:
 stop first match
 never skip verify

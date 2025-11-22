@@ -10,7 +10,7 @@ export const manageContextSessions = async (
   const files = [
     {
       relativePath: path.join(targetDir, "CONTEXT-SESSION.md"),
-      contents: "# Context Session\n"
+      contents: `# context\n\nfocus:\n- (3–5 bullets)\n\nplan:\n- micro steps\n\ndone-when:\n- measurable condition\n\nnotes:\n- temporary, purge\n`
     }
   ];
   await writeTemplateFiles(targetDir, files, context);
