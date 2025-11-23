@@ -1,9 +1,11 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist/extension",
+    "outDir": "./dist",
     "rootDir": "./src",
-    "types": ["node", "vscode"]
+    "types": ["node", "vscode"],
+    "module": "CommonJS",
+    "moduleResolution": "node"
   },
   "include": ["src/client/**/*", "src/shared/**/*", "src/types/**/*"],
   "exclude": ["src/server/**/*", "**/*.test.ts", "**/*.spec.ts", "**/*.eval.ts"]

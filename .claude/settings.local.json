@@ -10,14 +10,15 @@
       "Bash(timeout 3 node:*)",
       "Bash(mkdir:*)",
       "Bash(pnpm test:eval:*)",
-      "Bash(pnpm add:*)"
+      "Bash(pnpm add:*)",
+      "Bash(pnpm build:extension:*)"
     ],
     "deny": [],
     "ask": []
   },
   "statusLine": {
     "type": "command",
-    "command": "bash C:/repo/context-manager/.claude/statusline.sh",
+    "command": "bash C:/repo/context-manager/.claude/command/statusline.sh",
     "padding": 0
   }
 }

@@ -18,7 +18,7 @@ export enum Priority {
 /**
  * Queued request
  */
-interface QueuedRequest<T = any, R = any> {
+interface QueuedRequest<R = any> {
   id: string;
   task: () => Promise<R>;
   priority: Priority;
@@ -59,7 +59,7 @@ export class WorkloadManager {
   /**
    * Enqueue a request with priority
    */
-  async enqueue<T, R>(
+  async enqueue<R>(
     task: () => Promise<R>,
     priority: Priority = Priority.NORMAL
   ): Promise<R> {
@@ -69,7 +69,7 @@ export class WorkloadManager {
     }
 
     return new Promise((resolve, reject) => {
-      const request: QueuedRequest<T, R> = {
+      const request: QueuedRequest<R> = {
         id: this.generateId(),
         task,
         priority,

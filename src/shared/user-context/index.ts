@@ -4,12 +4,16 @@
  * Provides user-specific context and preferences for personalized experiences.
  */
 
-import { join } from 'path';
-import { safeReadFile, safeWriteFile, fileExists } from '../file-system-tool/index.js';
-import { UserContextSchema, type UserContext } from './schema.js';
-import { createDefaultUserContext } from './defaults.js';
+import { join } from "path";
+import {
+  safeReadFile,
+  safeWriteFile,
+  fileExists,
+} from "../file-system-tool/index.js";
+import { UserContextSchema, type UserContext } from "./schema.js";
+import { createDefaultUserContext } from "./defaults.js";
 
-const CONTEXT_FILE_NAME = '.context-manager.json';
+const CONTEXT_FILE_NAME = ".context-manager.json";
 
 /**
  * User Context Manager
@@ -27,7 +31,9 @@ export class UserContextManager {
    */
   async load(): Promise<UserContext> {
     try {
-      const content = await safeReadFile(this.contextPath, { throwIfNotExists: false });
+      const content = await safeReadFile(this.contextPath, {
+        throwIfNotExists: false,
+      });
 
       if (!content) {
         // No context file, create default
@@ -42,7 +48,7 @@ export class UserContextManager {
 
       return this.context;
     } catch (error) {
-      console.error('[UserContext] Failed to load context:', error);
+      console.error("[UserContext] Failed to load context:", error);
       // Fallback to default
       this.context = createDefaultUserContext(process.cwd());
       return this.context;
@@ -54,7 +60,7 @@ export class UserContextManager {
    */
   async save(): Promise<void> {
     if (!this.context) {
-      throw new Error('No context to save. Call load() first.');
+      throw new Error("No context to save. Call load() first.");
     }
 
     try {
@@ -67,7 +73,11 @@ export class UserContextManager {
       // Save to file
       await safeWriteFile(this.contextPath, JSON.stringify(validated, null, 2));
     } catch (error) {
-      throw new Error(`Failed to save user context: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to save user context: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
     }
   }
 
@@ -129,6 +139,20 @@ export function getUserContextManager(rootDir?: string): UserContextManager {
 }
 
 // Re-export types and schemas
-export type { UserContext, UserPreferences, ProjectContext, SessionContext } from './schema.js';
-export { UserContextSchema, UserPreferencesSchema, ProjectContextSchema, SessionContextSchema } from './schema.js';
-export { createDefaultUserContext, createDefaultProjectContext, DEFAULT_PREFERENCES } from './defaults.js';
+export type {
+  UserContext,
+  UserPreferences,
+  ProjectContext,
+  SessionContext,
+} from "./schema.js";
+export {
+  UserContextSchema,
+  UserPreferencesSchema,
+  ProjectContextSchema,
+  SessionContextSchema,
+} from "./schema.js";
+export {
+  createDefaultUserContext,
+  createDefaultProjectContext,
+  DEFAULT_PREFERENCES,
+} from "./defaults.js";

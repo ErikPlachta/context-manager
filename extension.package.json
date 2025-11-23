@@ -1,0 +1,72 @@
+{
+  "name": "context-manager",
+  "displayName": "Context Manager",
+  "description": "Skill-driven MCP Server for intelligent context management",
+  "version": "0.0.1",
+  "publisher": "context-manager",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/client/vs-code/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "context-manager.listTools",
+        "title": "List Available Tools",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.callTool",
+        "title": "Call Tool",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.readTodo",
+        "title": "Read TODO",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.updateTodo",
+        "title": "Update TODO",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.status",
+        "title": "Show Server Status",
+        "category": "Context Manager"
+      }
+    ],
+    "configuration": {
+      "title": "Context Manager",
+      "properties": {
+        "contextManager.debug": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable debug logging"
+        },
+        "contextManager.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically start MCP server on activation"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm build:extension",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4"
+  }
+}

@@ -1,0 +1,172 @@
+/**
+ * VS Code Commands
+ *
+ * Registers and implements extension commands.
+ */
+
+import * as vscode from 'vscode';
+import { MCPClient } from './mcp-client.js';
+
+/**
+ * Register all VS Code commands
+ */
+export function registerCommands(
+  _context: vscode.ExtensionContext,
+  client: MCPClient,
+  outputChannel: vscode.OutputChannel
+): vscode.Disposable[] {
+  const commands: vscode.Disposable[] = [];
+
+  // List available tools
+  commands.push(
+    vscode.commands.registerCommand('context-manager.listTools', async () => {
+      try {
+        const tools = await client.listTools();
+        const toolNames = tools.map(t => t.name).join('\n');
+
+        outputChannel.appendLine('Available tools:');
+        outputChannel.appendLine(toolNames);
+
+        vscode.window.showInformationMessage(
+          `Found ${tools.length} tool(s). Check output panel for details.`
+        );
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        outputChannel.appendLine(`Error listing tools: ${errorMessage}`);
+        vscode.window.showErrorMessage(`Failed to list tools: ${errorMessage}`);
+      }
+    })
+  );
+
+  // Call a tool (interactive)
+  commands.push(
+    vscode.commands.registerCommand('context-manager.callTool', async () => {
+      try {
+        // Get available tools
+        const tools = await client.listTools();
+
+        if (tools.length === 0) {
+          vscode.window.showWarningMessage('No tools available');
+          return;
+        }
+
+        // Show tool picker
+        const toolNames = tools.map(t => ({
+          label: t.name,
+          description: t.description || ''
+        }));
+
+        const selected = await vscode.window.showQuickPick(toolNames, {
+          placeHolder: 'Select a tool to call'
+        });
+
+        if (!selected) {
+          return;
+        }
+
+        // Get tool arguments (simplified - prompt for JSON)
+        const argsInput = await vscode.window.showInputBox({
+          prompt: 'Enter tool arguments (JSON)',
+          placeHolder: '{"arg1": "value1"}',
+          value: '{}'
+        });
+
+        if (argsInput === undefined) {
+          return;
+        }
+
+        let args = {};
+        try {
+          args = JSON.parse(argsInput);
+        } catch {
+          vscode.window.showErrorMessage('Invalid JSON arguments');
+          return;
+        }
+
+        // Call tool
+        outputChannel.appendLine(`Calling tool: ${selected.label}`);
+        outputChannel.appendLine(`Arguments: ${JSON.stringify(args, null, 2)}`);
+
+        const result = await client.callTool({
+          name: selected.label,
+          arguments: args
+        });
+
+        outputChannel.appendLine(`Result: ${JSON.stringify(result, null, 2)}`);
+        vscode.window.showInformationMessage('Tool executed. Check output panel for results.');
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        outputChannel.appendLine(`Error calling tool: ${errorMessage}`);
+        vscode.window.showErrorMessage(`Tool call failed: ${errorMessage}`);
+      }
+    })
+  );
+
+  // Read TODO
+  commands.push(
+    vscode.commands.registerCommand('context-manager.readTodo', async () => {
+      try {
+        const result = await client.callTool({
+          name: 'read_todo',
+          arguments: {}
+        });
+
+        outputChannel.appendLine('TODO.md contents:');
+        outputChannel.appendLine(JSON.stringify(result, null, 2));
+        outputChannel.show();
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        vscode.window.showErrorMessage(`Failed to read TODO: ${errorMessage}`);
+      }
+    })
+  );
+
+  // Update TODO
+  commands.push(
+    vscode.commands.registerCommand('context-manager.updateTodo', async () => {
+      try {
+        const content = await vscode.window.showInputBox({
+          prompt: 'Enter TODO content',
+          placeHolder: 'Task 1\\nTask 2\\nTask 3'
+        });
+
+        if (!content) {
+          return;
+        }
+
+        const result = await client.callTool({
+          name: 'update_todo',
+          arguments: { content }
+        });
+
+        outputChannel.appendLine('TODO updated:');
+        outputChannel.appendLine(JSON.stringify(result, null, 2));
+        vscode.window.showInformationMessage('TODO updated successfully');
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        vscode.window.showErrorMessage(`Failed to update TODO: ${errorMessage}`);
+      }
+    })
+  );
+
+  // Show server status
+  commands.push(
+    vscode.commands.registerCommand('context-manager.status', async () => {
+      const connected = client.isConnected();
+      const status = connected ? '✓ Connected' : '✗ Disconnected';
+
+      outputChannel.appendLine(`Server status: ${status}`);
+
+      if (connected) {
+        const tools = await client.listTools();
+        vscode.window.showInformationMessage(
+          `Context Manager: ${status} (${tools.length} tools available)`
+        );
+      } else {
+        vscode.window.showWarningMessage(`Context Manager: ${status}`);
+      }
+    })
+  );
+
+  return commands;
+}
