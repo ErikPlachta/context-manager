@@ -1,0 +1,27 @@
+{
+  "name": "Person",
+  "description": "TypedDict for the person schema.",
+  "schema": {
+    "kind": "typedDict",
+    "fields": [
+      { "name": "id", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "name", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "email", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "role", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "departmentId", "type": { "kind": "primitive", "name": "str" } },
+      {
+        "name": "managerId",
+        "type": { "kind": "optional", "value": { "kind": "primitive", "name": "str" } },
+        "required": false
+      },
+      { "name": "location", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "skills", "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } } },
+      {
+        "name": "applicationIds",
+        "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } }
+      },
+      { "name": "policyAcks", "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } } },
+      { "name": "resourceIds", "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } } }
+    ]
+  }
+}

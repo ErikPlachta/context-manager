@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "module": "es2022",
+    "lib": ["es2021"],
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "outDir": "out",
+    "rootDir": ".",
+    "skipLibCheck": true,
+    "types": ["node", "vscode", "jest", "eslint"],
+    "baseUrl": "./",
+    "paths": {
+      "@agent/*": ["src/agent/*"],
+      "@extension/*": ["src/extension/*"],
+      "@mcp/*": ["src/mcp/*"],
+      "@server/*": ["src/server/*"],
+      "@shared/*": ["src/shared/*"],
+      "@config/*": ["src/config/*"],
+      "@tools/*": ["src/tools/*"],
+      "@internal-types/*": ["src/types/*"],
+      "@bin/*": ["bin/*"]
+    }
+  },
+  "include": ["src", "bin"],
+  "exclude": [
+    "node_modules",
+    "out",
+    "bin/tests/**",
+    "jest.config.js",
+    "*.config.js"
+  ]
+}

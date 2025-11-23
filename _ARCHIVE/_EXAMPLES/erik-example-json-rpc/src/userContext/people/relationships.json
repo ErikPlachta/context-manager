@@ -1,0 +1,47 @@
+[
+  {
+    "key": "department",
+    "name": "department",
+    "description": "Each person belongs to a single department.",
+    "targetCategory": "departments",
+    "sourceField": "departmentId",
+    "targetField": "id",
+    "cardinality": "one"
+  },
+  {
+    "key": "manager",
+    "name": "manager",
+    "description": "Reporting line for the person.",
+    "targetCategory": "people",
+    "sourceField": "managerId",
+    "targetField": "id",
+    "cardinality": "one"
+  },
+  {
+    "key": "applications",
+    "name": "applications",
+    "description": "Applications the person can access.",
+    "targetCategory": "applications",
+    "sourceField": "applicationIds",
+    "targetField": "id",
+    "cardinality": "many"
+  },
+  {
+    "key": "policies",
+    "name": "policies acknowledged",
+    "description": "Policies the person has accepted.",
+    "targetCategory": "companyPolicies",
+    "sourceField": "policyAcks",
+    "targetField": "id",
+    "cardinality": "many"
+  },
+  {
+    "key": "resources",
+    "name": "resources contributed",
+    "description": "Resources authored or maintained by the person.",
+    "targetCategory": "companyResources",
+    "sourceField": "resourceIds",
+    "targetField": "id",
+    "cardinality": "many"
+  }
+]

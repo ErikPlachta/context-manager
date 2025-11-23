@@ -1,0 +1,12 @@
+{
+  "name": "AccessProfile",
+  "description": "TypedDict for person application access records.",
+  "schema": {
+    "kind": "typedDict",
+    "fields": [
+      { "name": "personId", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "applicationId", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "roles", "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } } }
+    ]
+  }
+}

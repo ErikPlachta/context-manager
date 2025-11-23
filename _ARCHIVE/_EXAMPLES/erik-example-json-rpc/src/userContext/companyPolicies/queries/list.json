@@ -1,0 +1,8 @@
+{
+  "name": "List policies",
+  "description": "Retrieve published policies from the governance portal.",
+  "samplePayload": {
+    "endpoint": "https://governance.example.com/api/policies",
+    "method": "GET"
+  }
+}

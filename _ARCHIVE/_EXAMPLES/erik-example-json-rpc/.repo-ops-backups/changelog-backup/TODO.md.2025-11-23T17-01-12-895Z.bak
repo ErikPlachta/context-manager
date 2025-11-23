@@ -1,0 +1,350 @@
+---
+title: TODO
+summary: A centralized Task management location used by CoPilot Chat to track current progress.
+roles:
+  - engineering
+  - documentation
+associations:
+  - TODO
+  - TODOs
+  - reference
+  - documentation
+---
+
+<!-- BEGIN:COPILOT_INSTRUCTIONS -->
+
+## Copilot Instructions
+
+### Core Principals
+
+1. This file is the single source of truth for all outstanding tasks. When working with Tasks/TODOs, always refer to this file exclusively.
+2. It is collaboratively managed by the User and Copilot Chat.
+3. All outstanding tasks must be captured here.
+4. Tasks should be organized by proper sections (Current/Next/Backlog) and priorities (P1/P2/P3). (See [Guidelines](#guidelines) below)
+5. Copilot Chat should proactively review and keep this file up to date, reflecting user-requested priority changes.
+6. Log capture all change history, organized by date/time and semantic titles.
+7. After each set of logged changes, revisit and update Outstanding Tasks accordingly.
+8. You must always use [Automation Aids](#automation-aids) below to help manage and maintain this files integrity.
+9. You must always use [Guidelines](#guidelines) for detailed instructions on managing tasks.
+10. Changes in this file should be reflected in [CHANGELOG.md](./CHANGELOG.md), keeping both files in sync.
+11. High-level goals and vision should be reflected in [CONTEXT-SESSION.md](./CONTEXT-SESSION.md), keeping alignment between tasks and overall direction.
+12. Whenever you're not sure on how to handle a situation, ask the User. Don't just make an assumption.
+
+### High Level Notes
+
+- Maintain this file as the single source of truth for outstanding tasks.
+- This file is used by `.github/copilot-instructions.md` for tracking historical decisions and active planned tasks before starting new work.
+- Ensure all outstanding tasks are captured here, organized by priority.
+- There are custom scripts created for interacting with this file via CLI to ensure consistency and proper formatting. (see [Automation Aids](#automation-aids) below)
+
+### Automation Aids
+
+The ChangeLogManager CLI has been retired. Edit `CHANGELOG.md` directly using the required format (timestamps: `YYYY-MM-DD HH:MM:SS`). For automation that remains:
+
+- Repo-ops (session management):
+  - Rotate session context: `npm run repo:ops -- session rotate [--write]`
+  - Lint session context: `npm run repo:ops -- session lint`
+- Note: CHANGELOG→TODO mirror and generated-actions commands have been removed. `TODO.md` is the single source of truth for tasks.
+
+- Repo-ops (changelog entries):
+  - Scaffold an entry block (copy/paste):
+    - `npm run repo:ops -- changelog scaffold --type <feat|fix|docs|refactor|test|perf|ci|build|style|chore> --summary "<short summary>" [--context "<problem/context>"]`
+  - Plan an insertion (dry-run; prints plan and diff snippets):
+    - `npm run repo:ops -- changelog write --type <type> --summary "<short summary>" [--context "<problem/context>"]`
+  - Apply insertion with backup:
+    - `npm run repo:ops -- changelog write --type <type> --summary "<short summary>" [--context "<problem/context>"] --write`
+  - After applying, run gates and add a Verification block manually:
+    - Build/Tests: `npm run compile && npm run test`
+    - Optional docs/health: `npm run prebuild`
+    - Then append a heading like: `##### Verification – 2025-11-13 (Label)` with Build/Tests/Lint/Docs/Health checklist.
+
+#### Guidelines
+
+This file serves as the central repository for tracking all outstanding TODOs, managed collaboratively by the user and Copilot Chat.
+
+Follow these guidelines to ensure effective task management:
+
+1. **Comprehensive Tracking**: Ensure every outstanding task is documented here, categorized by focus (Current, Next, Backlog).
+2. **Incomplete TODO Organization**: Group incomplete TODOs into three sections distinct sections for clarity and programmability.
+   - **Current TODOs**: Tasks actively being worked on. Contains a single parent-level item. Represents the immediate focus.
+   - **Next TODOs**: Tasks planned for the near future.
+   - **Backlog TODOs**: Unplanned tasks that may be addressed later.
+3. **TODO Priority**: Every TODO should have a classified priority: `P1 / Priority 1 (Critical. Blocking or  Urgent) | P2 / Priority 2 (Non-Blocking, Handle once P1 finished) | P3 / Priority 3 (Lowest Priority, handle after all P1 and P2 finished)`.
+4. **TODO Hierarchy**: A TODO will likely live within a hierarchy. A TODO may have a parent, siblings, or children items.
+5. **TODO Completion Tracking**: Completion of TODOs should take it's hierarchy into consideration. Completing a parent TODO should also complete all child TODOs. Completing a child TODO should not complete the parent TODO unless all siblings are also completed. A full list of TODOs is not complete until the full hierarchy is processed.
+6. **Regular Updates**: Regularly update this file to reflect changes in task status and priorities:
+   - Use visual indicators for status: ✅ completed | ❌ removed | ⏳ in-progress | 🚫 blocked | ‼️invalid
+   - Validate integrity and modify as things change.
+7. **Completion Workflow**: When a TODO is completed, and CHANGELOG entry should be made. Reference the `.github/copilot-instructions.md` and `CHANGELOG.md` for specifics.
+
+<!-- END:COPILOT_INSTRUCTIONS -->
+
+---
+
+<!-- BEGIN:GENERATED-ACTION-ITEMS -->
+
+## Generated Action Items
+
+<!-- BEGIN:CURRENT_ACTION_ITEMS -->
+
+### Current Action Items
+
+- [ ] P1: Repo-ops CLI Rebuild (Next-Gen) – Robust, typed, config-driven tooling for TODO/CONTEXT-SESSION/CHANGELOG
+  - [x] Architecture & design
+    - [x] Define repo-ops goals, inputs/outputs, and config surface for `TODO.md`, `CONTEXT-SESSION.md`, and `CHANGELOG.md` (including marker awareness and backup expectations) in a new implementation under `bin/repo-ops-next/**`.
+    - [x] Decide on a single CLI entry point and subcommand structure (e.g., `status`, `session`, `todo`, `changelog`) with consistent flag semantics in `bin/repo-ops-next/index.ts`.
+    - [x] Specify logging, debug modes (e.g., `--debug-args`, verbose flags), and error-handling strategy so failures are observable but safe.
+    - [x] Normalize process exit codes across commands (0 for success/dry-run, non-zero for validation/IO/parse errors) and document this behavior.
+  - [x] Core utilities & shared helpers
+    - [x] Implement shared file IO, backup, and text-processing utilities in typed modules under `bin/repo-ops-next/**` so reading/writing files, building lists, and backups are fully data-driven and reusable.
+    - [x] Centralize marker/config awareness (section markers, headings, YAML front-matter) into a config/descriptor file rather than hardcoding in command logic.
+    - [x] Ensure all runtime logic is strongly typed (TypeScript), with types in `bin` or shared locations matching governance rules.
+  - [x] Argument parsing & execution model
+    - [x] Implement a small, robust flag parser in `bin/repo-ops-next/**` that walks argv left-to-right and supports boolean flags like `--write`/`--validate` and value flags like `--context`, `--changes`, etc.
+    - [x] Ensure `writeFlag` (and other booleans) are derived solely from the presence of flags (independent of other behavior) and that dry-run vs applied behavior is fully decoupled.
+    - [x] Add optional debug output (e.g., `--debug-args`) to print parsed args, `writeFlag`, and related flags when troubleshooting.
+  - [x] Changelog management (logs-only, backup-aware)
+    - [x] Rebuild `changelog write`/`verify` and `changelog map`/index flows to use the new parser and shared backup utilities; keep logs-only policy and backup semantics intact.
+    - [x] Ensure lock handling is robust and clearly reported (no silent failures); keep `--validate`/dry-run semantics explicit.
+    - [x] Confirm behavior when `REPO_OPS_CHANGELOG_PATH` is set (synthetic path) is documented and tested.
+    - [x] Add explicit next-gen tests for REPO_OPS_CHANGELOG_PATH and synthetic changelog writes.
+  - [x] TODO management (single source of outstanding work)
+    - [x] Rebuild TODO commands to add/update tasks, enforce sections (Current/Next/Backlog) and priorities (P1–P3), and respect status markers (✅/⏳/etc.) for initial `todo add` support.
+    - [x] Ensure all edits are marker-aware and keep the `<!-- BEGIN:/END:... -->` structure intact for `todo add`.
+  - [x] CONTEXT-SESSION management (session hub alignment)
+    - [x] Rebuild `session rotate`/`session lint` to use shared helpers and config, keeping Focus Summary/Detail synced with `TODO.md` and `CHANGELOG.md` without duplicating tasks or logs.
+    - [x] Validate lint rules against governance (markers present, sections formatted correctly, links to TODO/CHANGELOG).
+  - [ ] Testing & verification
+    - [ ] Remove or replace existing repo-ops tests as needed; design a fresh test suite (unit + integration) for argument parsing, file operations, and cross-file invariants.
+    - [ ] Add tests around representative long commands (including ones with backticks, `/**`, and multi-word values) to confirm `--write` and other flags are always detected when present.
+    - [ ] Add end-to-end tests that exercise typical flows: add TODO, rotate session, write changelog entry, and verify consistency.
+    - [ ] Add a CHANGELOG entry with Verification block once the rebuilt CLI and tests are in place.
+    - [x] Implement shared read helpers in `bin/repo-ops-next/fs.ts` (e.g., `readFileSafe`) and refactor `status`/`session lint` to use them.
+    - [x] Implement a `writeWithBackup` helper API in `bin/repo-ops-next/fs.ts` and add focused tests to cover new writes and backup creation.
+
+<!-- END:CURRENT_ACTION_ITEMS -->
+<!-- BEGIN:NEXT_ACTION_ITEMS -->
+
+### Next Action Items
+
+- [ ] P2: Research VSCode Copilot Chat APIs to Identify New Agent Opportunities within MCP Server
+  - [ ] Research VSCode APIs for managing TODOs and other relevant functionalities.
+    - [ ] Identify all that exist and document their capabilities. Include how we could use the different features now or in the future.
+      - [ ] Among other things, consider managing TODOs in VSCode CoPilot Chat, using CLI Agents, and other VS Code Copilot Chat API's I'm not thinking of.
+    - [ ] Identify priority APIs that would add the most value to our design. Based on each, how could Orchestrator use this Agent to provide solutions to other Agents and workflows. What scould be integrated into existing Agents we have? Any opportunities to create new agents?
+  - [ ] Design a Data-Driven solution that could take advantage of existing configuration patterns.
+  - [ ] Design an agent that's prepared to receive and manage requests accordingly, with full tsdoc, data-driven, and works with configuration.
+  - [ ] Add unit tests and integration tests for the new Agent.
+  - [ ] Update documentation to include usage instructions for the new Agent.
+- [ ] P1: Types Purity Refactor – Extract runtime from `src/types/**`
+  - [ ] Inventory runtime code in `src/types/**` (classes, functions)
+  - [ ] Add enforcement test: fail on functions inside `src/types/**`
+  - [ ] Add unit tests for shared config helpers and BaseAgentConfig
+  - [ ] Update docs: governance “types-only” section and references
+  - [ ] Add CHANGELOG entry with Verification block
+- [ ] P1: MCP Server & `src/**` Integrity Review (Phase 1)
+  - [ ] Server (`src/server/**`)
+    - [ ] Confirm single JSON-RPC dispatcher handles `initialize`, `tools/list`, and `tools/call` for stdio and HTTP.
+    - [ ] Verify error shapes follow JSON-RPC 2.0 and are consistent across transports.
+    - [ ] Ensure stdio is default transport and HTTP is guarded by `MCP_HTTP_ENABLED`.
+    - [ ] Confirm dynamic tools registry (`getTools`) is driven by orchestrator/config only (no hardcoded tools/IDs).
+    - [ ] Review logging and failure modes so catastrophic errors fail gracefully without wedging the process.
+  - [ ] Orchestrator & Agents (`src/agent/**`)
+    - [ ] Check that no agent imports another agent directly; orchestrator is the sole coordinator.
+    - [ ] Confirm `CommunicationAgent` is formatting-only with no hidden data access or config writes.
+    - [ ] Audit `ClarificationAgent`, `DatabaseAgent`, `DataAgent`, and `UserContextAgent` for config-driven behavior (no hardcoded category IDs/names/business strings).
+    - [ ] Verify `UserContextAgent` data-root detection and external override behavior are deterministic and handle missing directories safely.
+    - [ ] Review agent error handling and telemetry/logging paths for volume, sensitivity, and alignment with governance.
+  - [ ] Shared helpers & Types (`src/shared/**`, `src/types/**`)
+    - [ ] Confirm runtime validation/config helpers live in `src/shared/**` and `src/types/**` remains types-only.
+    - [ ] Re-run `types.purity.test.ts` and adjust if any new patterns need enforcement.
+    - [ ] Spot-check `agentConfig`, `applicationConfig`, `userContext.types`, and `workflow.types` for clear TSDoc and no stale references to pre-refactor locations.
+  - [ ] Extension & MCP config/docs (`src/extension/**`, `src/mcp/**`, `src/docs/**`)
+    - [ ] Reconfirm MCP registration paths for stable vs Insiders/OSS VS Code builds.
+    - [ ] Verify cache behavior and log locations for the extension are consistent with the hidden cache directory pattern.
+    - [ ] Ensure MCP manifest, prompts, and schema utilities remain data-driven and aligned with current category/relationship definitions.
+  - [ ] Tests as guardrails (`tests/**`)
+    - [ ] Map integrity-review items above to existing tests (server/orchestrator, agents, shared/config/validation).
+    - [ ] Identify and list any critical `src/server/**` or `src/agent/**` paths lacking direct test coverage for follow-up tasks.
+- [ ] P2: Agent Cleanup & Orchestrator Compliance (Stabilization)
+  - [ ] Types: Complete comprehensive TSDoc for remaining configuration types (no placeholders).
+    - [ ] Normalize TSDoc in `src/extension/**` (remove JSDoc `{type}` in @param, escape braces, replace `@module`).
+    - [ ] Fix high-noise file `src/types/agentConfig.ts` (malformed inline tags, escape `}`).
+    - [ ] Sweep `src/shared/**` analytics files for `@template`/inline tag issues.
+    - [ ] Re-run `npm run lint` to confirm PASS.
+    - [ ] Note: Run this sweep after config helpers extraction to avoid churn.
+  - [ ] Extract functions from `src/types/**` into `src/shared/**` (e.g., `setConfigItem`, `createDescriptorMap`, `_getConfig`, `getUserFacingConfig`).
+  - [ ] ClarificationAgent: Derive examples/capabilities strictly from config/manifest (remove any residual hardcoding).
+  - [ ] DatabaseAgent/DataAgent: Audit to confirm zero hardcoded business values; all derived from config/user data.
+  - [ ] Add unit tests covering extracted shared helpers.
+  - [ ] Final pass: run `npm run compile && npm test && npm run prebuild` and capture outputs.
+- [ ] P1: Refactor shared config utilities into `src/shared` (docs follow-up)
+
+  - [ ] Update type docs to reference new shared modules
+  - [ ] Add CHANGELOG entry (descriptor extraction docs)
+
+- [ ] P3: REFACTOR: Organize tests to mirror source hierarchy (e.g., tests/src/agent/orchestrator)
+  - [ ] Update import paths & adjust Jest config if needed
+  - [ ] Verify suite passes post-move
+- [ ] P3: REFACTOR: Rebuild and add governance to bin content
+  - [ ] Convert bin/utils tools into self-contained modules
+  - [ ] Migrate build logic into `bin/utils`
+  - [ ] Update package.json scripts
+  - [ ] Add test coverage for bin utilities
+- [ ] P3: UTILITY: Changelog utility follow-ups (hardening)
+  - [ ] Unit tests for task section helpers
+  - [ ] Integration test for CLI flows
+  - [ ] JSON export with schemaVersion
+  - [x] Auto verification `--auto-verify` flag (now default on --write; supports --no-auto-verify)
+  - [x] Docs & README updates (changelog docs section updated)
+  - [x] Add `verify-only` command to refresh latest entry Verification block
+- [ ] P2: CLI: CHANGELOG - Provide richer changelog fields
+  - [ ] Add `--context-file <path>` to load markdown context from file (heredoc alternative)
+  - [ ] Add optional flags to populate sections directly: `--changes`, `--architecture`, `--filesChanged`, `--testing`, `--impact`
+  - [ ] Add `--template minimal` to omit placeholder sections when details are provided via flags or file
+  - [ ] Add `--auto-verify` to run `npm run compile && npm run test && npm run prebuild`, capture results, and append a Verification block
+  - [ ] Add duplicate-entry guard (same day + identical summary) with `--force` override
+- [ ] P2: CLI: Tests and docs for new flags
+  - [ ] Add unit tests for write/scaffold with new flags (dry-run/apply, context-file, minimal template)
+  - [ ] Add integration tests that verify generated markdown has no MD lint errors
+  - [ ] Update README/docs and `CHANGELOG.md` instructions with examples for new flags
+- [ ] P3: EXTENSION: Add TODO management capabilities (consider agent)
+  - [ ] Evaluate agent vs direct extension implementation
+  - [ ] Define minimal commands & UX
+  - [ ] Integrate with CommunicationAgent formatting
+- [ ] P2: DOCS: Resolve TypeDoc external link warnings
+  - [ ] Add `externalSymbolLinkMappings` for `process.platform`, `os.homedir`, and `process.env.*`
+  - [ ] Alternatively adjust comments to avoid unresolved links
+  - [ ] Re-run `npm run docs` and confirm 0 warnings
+- [ ] P2: DOCS: Add regression test for JSON-RPC page promotion
+  - [ ] Test `bin/utils/postprocessDocs.ts` promotes `docs/docs/mcp/jsonRpc/README.md` → `docs/mcp/json-rpc.md`
+  - [ ] Guard against path changes in TypeDoc output
+- [ ] P2: GOV: Add "Core Principles" and "Decision Tree" sections to `.github/copilot-instructions.md`
+  - [ ] Review and refine user's draft notes for Core Principles
+  - [ ] Validate, restructure, and position both sections at the top
+- [ ] P2: GOV: Add TypeScript-only coding directive (Core Principles item 25) and ensure all new harnesses/scripts use `.ts`
+- [ ] P2: GOV: Update all sections to reference Core Principles/Decision Tree (start/end workflow)
+  - [ ] Ensure every section has explicit fallback to principles/decision tree
+  - [ ] Enforce completion-loop semantics so requests are only done when loop closed
+  - [ ] Architecture Compliance:
+    - [ ] ✅ Agent Isolation / Data-Driven / Single-Class / Types centralized / Communication formatting via CommunicationAgent
+- [ ] P1: Build Utilities Evaluation and Consolidation
+  - [ ] Disable JSON lint in pipelines (bash + Windows) — COMPLETE in this branch
+  - [ ] Audit `@tools/repositoryHealth` usage paths
+    - [ ] Decide: build-time only vs. runtime usage
+    - [ ] If build-only, plan migration to `bin/utils` packaged tool (like `repo-ops`)
+  - [ ] Unify scripts
+    - [ ] Replace `npm run lint:json` with repo-ops subcommand or a single entry point
+    - [ ] Review `lint:docs` and consider merging into the same tool for consistency
+  - [ ] CI integration
+    - [ ] Update build scripts and CI to call the unified tool
+    - [ ] Document strict vs. non-strict modes for local vs. CI
+  - [ ] Docs
+    - [ ] Update README and `.github/copilot-instructions.md` to reflect the new flow
+    - [ ] Add troubleshooting section for health/lint failures
+- [ ] P2: BUILD: Update build Pipeline to include bundler
+  - [ ] Reference: [Bundling extensions](https://code.visualstudio.com/api/working-with-extensions/bundling-extension)
+  - [ ] Evaluate options for bundling the extension to reduce size and improve performance.
+    - [ ] Consider using tools like Webpack, Rollup, or esbuild.
+    - [ ] Update the build scripts in package.json to include the bundling step.
+    - [ ] Test the bundled extension to ensure it works correctly in VS Code.
+    - [ ] Update documentation to reflect the new build process.
+  - [ ] P1: Lint/Docs: Adopt TSDoc in `src`, keep JSDoc for `out`
+    - [ ] P2: DOCS/BUILD: Adopt TSDoc in `bin/**` (currently mixed or implicit) and add enforcement rule (eslint-plugin-tsdoc) parity with `src/**`.
+    - [ ] Add TSDoc module `@packageDocumentation` headers in each bin TypeScript file.
+    - [ ] Add symbol-level docs for exported functions (repo-ops helpers, lock, integrity, fast map).
+    - [ ] Update governance references to reflect completed adoption.
+    - [ ] Add tests/lint step confirming absence of JSDoc-only patterns in `bin/**`.
+    - [ ] Install `eslint-plugin-tsdoc` and update local dev (`npm i`).
+    - [ ] Run `npm run lint` to validate TSDoc tags (e.g., `@remarks`) do not error.
+    - [ ] Confirm TypeDoc renders `@remarks` and examples from `src` as expected.
+    - [ ] Evaluate adding a `jsdoc` doc task for `out/**` (optional) and wire as `docs:jsdoc`.
+    - [ ] Update governance docs to reflect “TSDoc for src / JSDoc for out” policy.
+    - [ ] Verification: Run `npm run prebuild` (lint/docs/health) and capture results in CHANGELOG verification block.
+
+<!-- END:NEXT_ACTION_ITEMS -->
+<!-- BEGIN:BACKLOG_ACTION_ITEMS -->
+
+### Backlog Action Items
+
+- [ ] P3: Review the code base and identify british-english words `artefacts`, that should be american-english `artifacts`. Also seeing other words like 'behaviour', 'optimise', 'utilise', 'customise', 'organisation' etc.
+- [ ] P3: Optional stdio integration harness tests (deferred)
+  - Add a lightweight stdio transport verifier or targeted integration tests if/when needed; keep default verification via HTTP harness in CI.
+- [ ] P3: SECURITY: Assess need for build-time obfuscation (risk vs benefit)
+- [ ] P3: Evaluate the logic in `C:\repo\vscode-extension-mcp-server\src\tools`, and identify things that should exist in `C:\repo\vscode-extension-mcp-server\bin\utils\`, and update all imports, tests, documentation, etc. accordingly.
+  - [ ] Specific follow-up: Move `src/tools/repositoryHealth.ts` into a `bin/utils` library and consolidate shared helpers with `bin/utils/validateMarkdown.ts` and `bin/utils/validateJson.ts`.
+- [ ] P3: Rename `C:\repo\vscode-extension-mcp-server\src\tools` to `C:\repo\vscode-extension-mcp-server\src\utils`, and update all imports, tests, documentation, etc. accordingly.
+- [ ] P3: Add a feature to the MCP Server for Error Event handling. Must be managed and fail gracefully.
+
+  - [ ] An Error Event management solution needs to be created
+  - [ ] All of the logic should run through it, so no matter what happens the extension doesn't break VS Code.
+    - [ ] It should be connected to logging, used by Orchestrator, have safe guards to self-disable after N failure attempts, notify vscode accordingly, disable in critical failure event, and then notify user to contact developer if still issues.
+
+<!-- END:BACKLOG_ACTION_ITEMS -->
+<!-- END:GENERATED_ACTION_ITEMS -->
+<!-- BEGIN:COMPLETED_ACTION_ITEMS -->
+
+## Completed Action Items
+
+- [x] P1: Changelog CLI Stabilization & DatabaseAgent Follow-through
+  - [x] Stabilize repo-ops `changelog write` dry-run vs `--write` semantics (implement `--validate` flow per TODO)
+  - [x] Apply changelog entry for extended DatabaseAgent init tests and E2E workflow (non-dry-run)
+  - [x] Run end-to-end verification: HTTP transport harness + core tests
+  - [x] Capture final governance/docs notes for repo-ops changelog usage
+- [x] Maintenance: Purged changelog backups and reset cache; applied key CHANGELOG.md lint fixes; added verification entry (2025-11-15)
+- [x] P1: Cache Directory Rename & Migration — complete; verification updated with Docs/Health PASS
+  - Rename root cache directory to hidden `.usercontext-mcp-extension` and add best‑effort migration
+  - Updated code/tests/docs; tests green; CHANGELOG entry added
+  - Post-verification: ran `npm run prebuild`; appended Docs/Health PASS to Verification block
+- [x] CI: Add optional repo-ops lint step — implemented via `.github/workflows/repo-ops-lint.yml`
+- [x] P1: Validation Runtime Extraction (Phased) — Phases 1–9 completed; coverage uplift recorded; parity preserved
+- [x] P1: CommunicationAgent clarification is config-driven — see CHANGELOG entry "2025-11-13 10:00:00 refactor: CommunicationAgent clarification via configuration; add types and templates"
+- [x] P1: MCP Server: Resolve categoryId via aliases/names and enumerate `availableCategories` on error — see CHANGELOG entry "2025-11-13 14:28:32 fix/mcp: Resolve categoryId via aliases and names in MCP tools"
+- [x] P1: Server: Add Orchestrator bridge and route MCP tools through it (Part 1) — see CHANGELOG entry "2025-11-14 09:30:00 refactor/server: Add Orchestrator bridge and route MCP tools through it (Part 1)"
+- [x] ✅ P1: Replace static tools registry with orchestrator/config derived list
+- [x] Objective: Remove hardcoded `tools` array in `src/server/index.ts` and generate tool descriptors from orchestrator or config sources.
+- [x] P1: DOCS: Move JSON-RPC reference into `src/docs` and promote stable page
+  - Completed: Added `src/docs/mcp/jsonRpc.ts` with `@packageDocumentation`
+  - Completed: Promoted generated page to `docs/mcp/json-rpc.md` via postprocess
+  - Verified via `npm run docs` and changelog entry (2025-11-14)
+- [x] P1: repo-ops: Add fast incremental changelog map (`--fast`) and `diff` subcommand — see CHANGELOG entry "2025-11-14 14:45:00 feat: repo-ops: add fast incremental map and diff subcommand"
+- [x] P2: CommunicationAgent successDisplay documentation added — see CHANGELOG entry "2025-11-14 19:20:20 docs: Document CommunicationAgent successDisplay settings"
+- [x] P1: Validation Runtime Extraction (Phased)
+  - [x] Phase 1: Inventory & Tag – enumerated runtime validation exports (agent/category/relationship/errors/reporting); added Phase 1 @remarks tags to each exported function in `src/types/userContext.types.ts`, `src/types/configValidation.ts`, `src/types/configRegistry.ts`.
+  - [x] Phase 2: Parity Test Scaffold – added `tests/validation.parity.test.ts` (locks behavior for category + config validators, 38 passed, 1 skipped total suites now 39).
+  - [x] Phase 3: Shared Module Completion (Category subset) – created `src/shared/validation/categoryValidation.ts` (extracted logic; delegation deferred to preserve types-only constraint).
+  - [x] Phase 3: Shared Module Completion (Config subset) – added `src/shared/validation/configValidation.ts` (duplicated logic; parity preserved).
+  - [x] Phase 4: Single-Agent Import Switch – migrated `UserContextAgent` to shared validation (aliased imports); verification green.
+  - [x] Phase 5: Multi-Agent Switch – migrated remaining agents to shared config validation; runtime removal deferred to Phase 6 enforcement.
+  - [x] Phase 6: Enforcement Test – removed all runtime validator implementations from `src/types/**`; added `tests/types.purity.test.ts` scanning for forbidden validator names; updated affected imports to shared modules; test passing.
+  - [x] Phase 7: Cleanup & Changelog – removed phased inline remarks across types; added verification changelog entry confirming tests (42 passed / 1 skipped) and purity intact.
+  - [x] Phase 8: Post-Migration Audit – confirm no hardcoded business values introduced; validate agent isolation remains intact.
+    - Findings: No hardcoded category ids or business strings found in `src/shared/validation/**`; agent modules under `src/agent/**` only import their own `agent.config.ts` and do not import other agents. Orchestrator remains sole coordinator. Test suite remains green (44 passed, 1 skipped).
+  - [x] Phase 9: Coverage Review – ensure parity tests + new shared module maintain or improve coverage metrics.
+    - Baseline (2025-11-14): `src/shared/validation/categoryValidation.ts` – Statements 95%, Branches 93.82%, Functions 100%, Lines 94.73%.
+    - Baseline (2025-11-14): `src/shared/validation/configValidation.ts` – Statements 63.73%, Branches 61.44%, Functions 75%, Lines 63.73%.
+    - Action: Added `tests/configValidation.coverage.test.ts` to exercise invalid `$configId`, orchestrator `intents` type, `textProcessing.stopWords`, and `scoring.weights` branches; unknown agent type warning; semver warning; compatibility paths; and report generation.
+    - Result (2025-11-14): `src/shared/validation/configValidation.ts` – Statements 92.30%, Branches 89.15%, Functions 91.66%, Lines 92.30%.
+    - Suite status: PASS (1 skipped, 45 passed). Coverage updated via `npm test -- --coverage`.
+- [x] P1: MCP Transport & Protocol Enforcement
+  - [x] Ensure JSON-RPC 2.0 compliance end-to-end.
+  - [x] Verify stdio is default transport; HTTP enabled only with `MCP_HTTP_ENABLED=true`.
+  - [x] Consolidate JSON-RPC handlers into a single path reused across transports.
+    - [x] Implement single dispatcher (initialize, tools/list, tools/call) and remove duplicates+
+    - [x] Wire both stdio and HTTP to reuse the same dispatcher
+  - [x] Add tests to validate protocol and transport behavior (single-handler + negative transport cases).
+    - [x] Unit: method not found / invalid params error shapes
+    - ❌ Integration: stdio path happy-path tools/list + tools/call (deferred; stdio harness removed — moved to Backlog)
+    - [x] Integration: HTTP happy-path (initialize + tools/list) via `bin/transport/verifyHttpTransport.js`
+    - [x] CI helper: `test:http:ci` script added
+    - [x] CI: wired `test:http:ci` into GitHub Actions (separate `transport` job)
+  - [x] Update documentation to reflect transport and protocol standards.
+  - [x] Implement dynamic tools registry (deriving tool descriptors from orchestrator/config) and add integrity tests.
+- [x] P1: Changelog CLI: unify backups under `.repo-ops-backups/changelog-backup/`
+  - [x] Confirm `test_tmp` is created during changelog writes and auto cleaned by repo-ops
+  - [x] Route changelog backups into `.repo-ops-backups/changelog-backup/` via timestamped `.bak` files
+  - [x] Add README/docs note describing backup layout (archive `.bak` + `CHANGELOG.next.tmp` in backup dir)
+  - [x] Ensure test-created `tests_tmp` folders (root + backup) are cleaned up after Jest runs
+
+<!-- END:COMPLETED_ACTION_ITEMS -->
+<!-- BEGIN:GENERATED-ACTION-ITEMS -->

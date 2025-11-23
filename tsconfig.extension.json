@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/extension",
+    "rootDir": "./src",
+    "types": ["node", "vscode"]
+  },
+  "include": ["src/client/**/*", "src/shared/**/*", "src/types/**/*"],
+  "exclude": ["src/server/**/*"]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "Department",
+  "description": "TypedDict describing the department data structure.",
+  "schema": {
+    "kind": "typedDict",
+    "fields": [
+      { "name": "id", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "name", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "description", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "leadId", "type": { "kind": "primitive", "name": "str" } },
+      {
+        "name": "parentDepartmentId",
+        "type": { "kind": "optional", "value": { "kind": "primitive", "name": "str" } },
+        "required": false
+      },
+      {
+        "name": "applicationIds",
+        "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } }
+      },
+      {
+        "name": "policyIds",
+        "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } }
+      },
+      {
+        "name": "resourceIds",
+        "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } }
+      }
+    ]
+  }
+}

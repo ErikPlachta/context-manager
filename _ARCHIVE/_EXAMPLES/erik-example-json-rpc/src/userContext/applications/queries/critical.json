@@ -1,0 +1,13 @@
+{
+  "name": "Fetch critical applications and systems",
+  "description": "Get core critical applications and systems used by the organization.",
+  "samplePayload": {
+    "endpoint": "TODO-Add-route-here",
+    "method": "POST",
+    "body": {
+      "filter": {
+        "criticality": "high"
+      }
+    }
+  }
+}

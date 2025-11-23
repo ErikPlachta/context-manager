@@ -1,0 +1,76 @@
+{
+  "id": "companyPolicies",
+  "name": "Company Policies",
+  "description": "Governance, compliance, and operating procedures.",
+  "aliases": ["policies", "standards"],
+  "config": {
+    "purpose": "Provide authoritative guidance for operations and compliance.",
+    "primaryKeys": ["id"],
+    "updateCadence": "Policy board monthly review.",
+    "access": "All employees. Approvals handled via Governance & Risk.",
+    "requirements": {
+      "requiredRecordFields": ["id", "title", "ownerDepartmentId"],
+      "requiredRelationshipFields": [
+        "ownerDepartmentId",
+        "applicationIds",
+        "relatedResourceIds"
+      ],
+      "notes": [
+        "<Policy> should highlight the owning department and impacted resources."
+      ]
+    },
+    "orchestration": {
+      "summary": "<Policy> data ties governance requirements to owning departments, applications, and resources.",
+      "signals": [
+        "Requests cite compliance frameworks, regulations, or specific policy documents.",
+        "The user needs to know which department owns or enforces a control.",
+        "The task asks which systems or resources are governed by a policy."
+      ],
+      "escalateWhen": [
+        "A policy or regulation is referenced that does not exist in the dataset.",
+        "The user needs legal interpretation or unpublished policy guidance."
+      ],
+      "agents": {
+        "relevantDataManager": {
+          "focus": "Explain policy metadata, lifecycle expectations, and cross-category relationships.",
+          "signals": [
+            "The orchestrator must collect required fields for creating or updating a policy record.",
+            "We need to understand how policies connect to applications or resources before querying records.",
+            "The request involves reviewing schemas, examples, or update cadences for governance artifacts."
+          ],
+          "promptStarters": [
+            "Relevant data manager, list the required metadata for a new policy entry.",
+            "Relevant data manager, summarize the applications and resources governed by `<policy>`.",
+            "Relevant data manager, point me to the schemas and examples for the policy dataset."
+          ]
+        },
+        "databaseAgent": {
+          "focus": "Retrieve policy records filtered by regulation, owner, or impacted assets.",
+          "signals": [
+            "We need to query policies that reference a regulation or compliance theme.",
+            "We are checking coverage gaps across applications or resources.",
+            "Auditors need a list of policies owned by a department with review cadences."
+          ],
+          "promptStarters": [
+            "Database agent, list policies owned by `<department>` with their review cadence.",
+            "Database agent, find policies that govern `<application>`.",
+            "Database agent, return the policies referencing `<regulation>` along with related resources."
+          ]
+        },
+        "dataAgent": {
+          "focus": "Deliver compliance narratives and highlight risks or onboarding needs.",
+          "signals": [
+            "Stakeholders need a compliance summary for a department or initiative.",
+            "We must explain how policies, departments, and applications interact for governance.",
+            "The orchestrator is planning a roadmap or training guide using policy coverage."
+          ],
+          "promptStarters": [
+            "Data agent, summarize how `<department>` enforces `<policy>` across its applications.",
+            "Data agent, outline compliance risks for `<regulation>` based on current policy coverage.",
+            "Data agent, draft onboarding guidance for new hires about `<policy area>`."
+          ]
+        }
+      }
+    }
+  }
+}

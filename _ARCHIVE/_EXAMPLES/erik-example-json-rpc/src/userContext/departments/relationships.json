@@ -1,0 +1,47 @@
+[
+  {
+    "key": "departmentLead",
+    "name": "department lead",
+    "description": "Each department links to a single person that serves as the leader.",
+    "targetCategory": "people",
+    "sourceField": "leadId",
+    "targetField": "id",
+    "cardinality": "one"
+  },
+  {
+    "key": "teamMembers",
+    "name": "team members",
+    "description": "People reference their home department via departmentId.",
+    "targetCategory": "people",
+    "sourceField": "id",
+    "targetField": "departmentId",
+    "cardinality": "many"
+  },
+  {
+    "key": "applications",
+    "name": "owned applications",
+    "description": "Departments sponsor business applications.",
+    "targetCategory": "applications",
+    "sourceField": "applicationIds",
+    "targetField": "id",
+    "cardinality": "many"
+  },
+  {
+    "key": "policies",
+    "name": "governing policies",
+    "description": "Policies align with the owning department.",
+    "targetCategory": "companyPolicies",
+    "sourceField": "policyIds",
+    "targetField": "id",
+    "cardinality": "many"
+  },
+  {
+    "key": "resources",
+    "name": "resources",
+    "description": "Playbooks and assets maintained by the team.",
+    "targetCategory": "companyResources",
+    "sourceField": "resourceIds",
+    "targetField": "id",
+    "cardinality": "many"
+  }
+]

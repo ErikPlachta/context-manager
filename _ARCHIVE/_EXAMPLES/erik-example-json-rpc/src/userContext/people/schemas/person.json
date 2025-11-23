@@ -1,0 +1,21 @@
+{
+  "name": "Person",
+  "description": "Core employee record schema.",
+  "schema": {
+    "type": "object",
+    "required": ["id", "name", "departmentId"],
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string" },
+      "email": { "type": "string" },
+      "role": { "type": "string" },
+      "departmentId": { "type": "string" },
+      "managerId": { "type": ["string", "null"] },
+      "location": { "type": "string" },
+      "skills": { "type": "array", "items": { "type": "string" } },
+      "applicationIds": { "type": "array", "items": { "type": "string" } },
+      "policyAcks": { "type": "array", "items": { "type": "string" } },
+      "resourceIds": { "type": "array", "items": { "type": "string" } }
+    }
+  }
+}

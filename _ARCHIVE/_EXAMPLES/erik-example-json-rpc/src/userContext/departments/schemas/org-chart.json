@@ -1,0 +1,20 @@
+{
+  "name": "OrgChart",
+  "description": "Hierarchy representation for organizational modeling.",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "nodes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "parentId": { "type": ["string", "null"] },
+            "label": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

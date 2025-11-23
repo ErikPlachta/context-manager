@@ -1,0 +1,17 @@
+{
+  "name": "Policy",
+  "description": "Company policy metadata schema.",
+  "schema": {
+    "type": "object",
+    "required": ["id", "title", "ownerDepartmentId"],
+    "properties": {
+      "id": { "type": "string" },
+      "title": { "type": "string" },
+      "category": { "type": "string" },
+      "summary": { "type": "string" },
+      "ownerDepartmentId": { "type": "string" },
+      "relatedResourceIds": { "type": "array", "items": { "type": "string" } },
+      "applicationIds": { "type": "array", "items": { "type": "string" } }
+    }
+  }
+}

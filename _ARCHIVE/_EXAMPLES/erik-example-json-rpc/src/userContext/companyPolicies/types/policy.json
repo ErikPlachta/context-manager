@@ -1,0 +1,22 @@
+{
+  "name": "Policy",
+  "description": "TypedDict for policy metadata.",
+  "schema": {
+    "kind": "typedDict",
+    "fields": [
+      { "name": "id", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "title", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "category", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "summary", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "ownerDepartmentId", "type": { "kind": "primitive", "name": "str" } },
+      {
+        "name": "relatedResourceIds",
+        "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } }
+      },
+      {
+        "name": "applicationIds",
+        "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } }
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "description": "Analytics delivery playbook.",
+  "sample": {
+    "id": "resource-analytics-playbook",
+    "name": "Analytics Playbook",
+    "type": "playbook",
+    "departmentId": "dept-analytics",
+    "linkedPolicyIds": ["policy-data-handling"],
+    "applicationIds": ["app-aurora", "app-atlas"]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "List people by department",
+  "description": "Return employees scoped to a specific department.",
+  "samplePayload": {
+    "endpoint": "https://hris.example.com/people",
+    "method": "GET",
+    "params": {
+      "departmentId": "dept-analytics"
+    }
+  }
+}

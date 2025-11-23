@@ -1,0 +1,16 @@
+{
+  "name": "OrgChartNode",
+  "description": "Typed node representing the company hierarchy graph.",
+  "schema": {
+    "kind": "typedDict",
+    "fields": [
+      { "name": "id", "type": { "kind": "primitive", "name": "str" } },
+      {
+        "name": "parentId",
+        "type": { "kind": "optional", "value": { "kind": "primitive", "name": "str" } },
+        "required": false
+      },
+      { "name": "label", "type": { "kind": "primitive", "name": "str" } }
+    ]
+  }
+}

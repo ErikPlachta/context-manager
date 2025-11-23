@@ -1,0 +1,47 @@
+[
+  {
+    "id": "resource-analytics-playbook",
+    "name": "Analytics Playbook",
+    "type": "playbook",
+    "departmentId": "dept-analytics",
+    "description": "Step-by-step guide for data product delivery.",
+    "linkedPolicyIds": ["policy-data-handling"],
+    "applicationIds": ["app-aurora", "app-atlas"]
+  },
+  {
+    "id": "resource-platform-runbook",
+    "name": "Platform Reliability Runbook",
+    "type": "runbook",
+    "departmentId": "dept-platform",
+    "description": "Runbook for handling platform incidents.",
+    "linkedPolicyIds": ["policy-platform-standards"],
+    "applicationIds": ["app-foundry"]
+  },
+  {
+    "id": "resource-operating-model",
+    "name": "Operating Model Overview",
+    "type": "handbook",
+    "departmentId": "dept-operations",
+    "description": "Explains how teams collaborate and govern work.",
+    "linkedPolicyIds": ["policy-remote-work"],
+    "applicationIds": ["app-oracle"]
+  },
+  {
+    "id": "resource-ml-handbook",
+    "name": "Machine Learning Delivery Handbook",
+    "type": "handbook",
+    "departmentId": "dept-analytics",
+    "description": "Patterns, reviews, and quality gates for ML projects.",
+    "linkedPolicyIds": ["policy-data-handling"],
+    "applicationIds": ["app-atlas"]
+  },
+  {
+    "id": "resource-data-handbook",
+    "name": "Data Governance Handbook",
+    "type": "handbook",
+    "departmentId": "dept-operations",
+    "description": "Policies and best practices for governing data.",
+    "linkedPolicyIds": ["policy-data-handling"],
+    "applicationIds": ["app-aurora", "app-oracle"]
+  }
+]

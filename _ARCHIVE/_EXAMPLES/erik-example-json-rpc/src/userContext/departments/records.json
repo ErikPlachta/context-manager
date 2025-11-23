@@ -1,0 +1,32 @@
+[
+  {
+    "id": "dept-analytics",
+    "name": "Insight & Analytics",
+    "description": "Delivers customer and product insights for go-to-market teams.",
+    "leadId": "person-005",
+    "parentDepartmentId": "dept-operations",
+    "applicationIds": ["app-aurora", "app-atlas"],
+    "policyIds": ["policy-data-handling"],
+    "resourceIds": ["resource-analytics-playbook"]
+  },
+  {
+    "id": "dept-platform",
+    "name": "Platform Engineering",
+    "description": "Owns shared services, developer tooling, and runtime infrastructure.",
+    "leadId": "person-006",
+    "parentDepartmentId": "dept-operations",
+    "applicationIds": ["app-foundry"],
+    "policyIds": ["policy-platform-standards"],
+    "resourceIds": ["resource-platform-runbook"]
+  },
+  {
+    "id": "dept-operations",
+    "name": "Strategy & Operations",
+    "description": "Central operations ensuring alignment and governance.",
+    "leadId": "person-007",
+    "parentDepartmentId": null,
+    "applicationIds": ["app-oracle"],
+    "policyIds": ["policy-remote-work", "policy-data-handling"],
+    "resourceIds": ["resource-operating-model"]
+  }
+]

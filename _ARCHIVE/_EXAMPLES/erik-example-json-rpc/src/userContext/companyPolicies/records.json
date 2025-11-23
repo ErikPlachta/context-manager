@@ -1,0 +1,29 @@
+[
+  {
+    "id": "policy-data-handling",
+    "title": "Data Handling Standard",
+    "category": "Security",
+    "summary": "Guidelines for ingesting, storing, and sharing company data.",
+    "ownerDepartmentId": "dept-operations",
+    "relatedResourceIds": ["resource-data-handbook"],
+    "applicationIds": ["app-aurora", "app-atlas"]
+  },
+  {
+    "id": "policy-platform-standards",
+    "title": "Platform Engineering Standards",
+    "category": "Engineering",
+    "summary": "Standards for deploying and operating shared services.",
+    "ownerDepartmentId": "dept-platform",
+    "relatedResourceIds": ["resource-platform-runbook"],
+    "applicationIds": ["app-foundry"]
+  },
+  {
+    "id": "policy-remote-work",
+    "title": "Remote Work Policy",
+    "category": "People",
+    "summary": "Guidance for remote collaboration and equipment stipends.",
+    "ownerDepartmentId": "dept-operations",
+    "relatedResourceIds": ["resource-operating-model"],
+    "applicationIds": ["app-oracle"]
+  }
+]

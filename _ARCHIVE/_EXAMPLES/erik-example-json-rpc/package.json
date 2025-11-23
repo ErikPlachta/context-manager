@@ -1,0 +1,199 @@
+{
+  "name": "UserContext-mcp-extension",
+  "displayName": "User Context MCP Extension",
+  "description": "Auto-syncs MCP tools into VS Code Copilot Chat with full test suite and documentation.",
+  "version": "1.0.0",
+  "type": "module",
+  "publisher": "ErikPlachta",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ErikPlachta/vscode-extension-mcp-server.git"
+  },
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:usercontextMCP.invokeTool",
+    "onCommand:usercontextMCP.registerServer",
+    "onCommand:usercontextMCP.unregisterServer",
+    "onChatParticipant:UsercontextMCP"
+  ],
+  "main": "./out/src/extension/index.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "usercontextMCP.invokeTool",
+        "title": "User Context MCP Extension: Invoke Tool"
+      },
+      {
+        "command": "usercontextMCP.registerServer",
+        "title": "User Context MCP Extension: Register MCP Server"
+      },
+      {
+        "command": "usercontextMCP.unregisterServer",
+        "title": "User Context MCP Extension: Unregister MCP Server"
+      },
+      {
+        "command": "usercontextMCP.diagnoseIds",
+        "title": "User Context MCP Extension: Diagnose Chat IDs"
+      }
+    ],
+    "mcpServerDefinitionProviders": [
+      {
+        "id": "usercontext-local",
+        "label": "User Context MCP Extension Embedded Server"
+      }
+    ],
+    "chatParticipants": [
+      {
+        "id": "UsercontextMCP",
+        "name": "usercontext",
+        "description": "Access your user context data via MCP (User Context MCP Extension).",
+        "isSticky": true
+      }
+    ],
+    "configuration": {
+      "title": "User Context MCP Extension Settings",
+      "properties": {
+        "usercontextMCP.serverUrl": {
+          "type": "string",
+          "default": "",
+          "description": "External MCP server URL (leave blank to use embedded)."
+        },
+        "usercontextMCP.token": {
+          "type": "string",
+          "description": "Bearer token for MCP authentication."
+        },
+        "usercontextMCP.autoRegister": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically register embedded server in global mcp.json."
+        },
+        "usercontextMCP.port": {
+          "type": "number",
+          "default": 39200,
+          "minimum": 1024,
+          "maximum": 65535,
+          "description": "Port for embedded HTTP JSON-RPC server."
+        },
+        "usercontextMCP.registerServerId": {
+          "type": "string",
+          "default": "UserContext",
+          "description": "Server id key used inside mcp.json servers object."
+        },
+        "usercontextMCP.includeAuthHeader": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include Authorization header metadata when registering HTTP server in mcp.json."
+        },
+        "usercontextMCP.ids.chatParticipantId": {
+          "type": "string",
+          "enum": [
+            "UsercontextMCP"
+          ],
+          "markdownDescription": "Read-only. Current chat participant id as contributed (activation event)."
+        },
+        "usercontextMCP.ids.chatParticipantName": {
+          "type": "string",
+          "enum": [
+            "usercontext"
+          ],
+          "markdownDescription": "Read-only. Current mention name (use @<name> in chat)."
+        },
+        "usercontextMCP.ids.commandPrefix": {
+          "type": "string",
+          "enum": [
+            "usercontextMCP"
+          ],
+          "markdownDescription": "Read-only. Current command/settings prefix."
+        },
+        "usercontextMCP.ids.activationEventId": {
+          "type": "string",
+          "enum": [
+            "UsercontextMCP"
+          ],
+          "markdownDescription": "Read-only. Activation event id (onChatParticipant:<id>)."
+        },
+        "usercontextMCP.ids.extensionId": {
+          "type": "string",
+          "enum": [
+            "ErikPlachta.UserContext-mcp-extension"
+          ],
+          "markdownDescription": "Read-only. Extension identifier (publisher.name)."
+        },
+        "usercontextMCP.ids.serverRegisterId": {
+          "type": "string",
+          "enum": [
+            "UserContext"
+          ],
+          "markdownDescription": "Read-only. Server id key used in mcp.json servers."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "config": "tsx bin/utils/updatePackageConfig.ts",
+    "templates": "tsx bin/utils/processTemplates.ts",
+    "prebuild": "npm run config && npm run mcp:gen && npm run templates",
+    "build": "npm run prebuild && npm run compile && npm run copy:data && tsx bin/utils/aliasToRelativeOut.ts",
+    "copy:data": "node -e \"require('fs').cpSync('src/userContext', 'out/src/userContext', {recursive: true, filter: (src) => !src.endsWith('.ts')})\"",
+    "build:pipeline": "bash bin/build.sh",
+    "build:pipeline:win": "bin\\build.bat",
+    "build:full": "bash bin/build.sh --strict-lint --strict-health",
+    "build:quick": "bash bin/build.sh --stages compile,test --no-coverage",
+    "build:clean": "bash bin/build.sh --deep-clean",
+    "deploy": "bash bin/build.sh --update-version",
+    "lint": "eslint \"src/**/*.ts\" \"bin/repo-ops/**/*.ts\" --max-warnings=0",
+    "lint:repo-ops": "eslint \"bin/repo-ops/**/*.ts\" --max-warnings=0",
+    "lint:json": "tsx bin/utils/validateJson.ts",
+    "lint:docs": "tsx bin/utils/validateMarkdown.ts",
+    "health:report": "tsx src/tools/repositoryHealth.ts",
+    "test": "npm run templates && cross-env NODE_OPTIONS=--experimental-vm-modules jest --config=jest.config.js --runInBand --ci",
+    "test:http": "npm run compile && tsx bin/utils/aliasToRelativeOut.ts && node bin/transport/verifyHttpTransport.js",
+    "test:http:ci": "cross-env CI=true npm run test:http",
+    "docs": "tsx bin/utils/cleanDocs.ts && typedoc && npm run docs:fix && npm run health:report && npm run docs:nav",
+    "docs:nav": "tsx bin/utils/buildDocsNav.ts",
+    "docs:fix": "tsx bin/utils/postprocessDocs.ts",
+    "fix:imports": "tsx bin/utils/convertRelativeImports.ts",
+    "compile": "tsc -p ./",
+    "mcp:gen": "tsx src/tools/generateMcpConfig.ts",
+    "package": "npm run build && npx vsce package",
+    "prepublishOnly": "npm run prebuild",
+    "vsix:install": "code --install-extension UserContext-mcp-extension-1.0.0.vsix",
+    "server": "npm run compile -- --pretty false && node ./out/server/index.js",
+    "repo:ops": "tsx bin/repo-ops/index.ts",
+    "repo:ops:next": "tsx bin/repo-ops-next/index.ts",
+    "repo:ops:next:status": "npm run repo:ops:next -- status"
+  },
+  "dependencies": {
+    "fast-glob": "^3.3.2",
+    "gray-matter": "^4.0.3",
+    "package": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/eslint": "^9.6.1",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.10.0",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.3",
+    "@typescript-eslint/parser": "^8.46.3",
+    "@vscode/vsce": "^3.2.0",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.2.3",
+    "eslint": "^9.39.1",
+    "eslint-plugin-header": "^3.1.1",
+    "eslint-plugin-jsdoc": "^61.1.12",
+    "eslint-plugin-tsdoc": "^0.5.0",
+    "jest": "^30.2.0",
+    "markdownlint": "^0.39.0",
+    "ts-jest": "^29.2.5",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.19.2",
+    "typedoc": "^0.28.14",
+    "typedoc-plugin-markdown": "^4.9.0",
+    "typescript": "^5.9.3"
+  }
+}

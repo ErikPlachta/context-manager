@@ -1,0 +1,188 @@
+# Session Context
+
+Started: 2025-11-12T17:30:00Z
+
+## Related
+
+- [CHANGELOG.md](CHANGELOG.md)
+- [TODO.md](TODO.md)
+
+<!-- BEGIN:COPILOT_INSTRUCTIONS -->
+
+## Copilot Instructions
+
+Purpose and Scope
+
+- Use this file as the active session hub: capture current focus, short-term plans, quick notes, and links. Keep it skim-friendly and up to date.
+- Do not duplicate tasks or logs here. Tasks live in `TODO.md`. Logs and verification live in `CHANGELOG.md`.
+
+Authoritative Relationships
+
+- Source of truth for tasks: `TODO.md` (Current/Next/Backlog/Completed). Reflect changing priorities here, not in this file.
+- Source of truth for history and verification: `CHANGELOG.md`. Every meaningful change should be logged with a Verification block.
+- Transient thinking and branch plans belong in this file under the Notes area, and should be cleaned up regularly.
+
+Editing Rules
+
+- Maintain these markers: `<!-- BEGIN:CURRENT-FOCUS-SUMMARY -->`, `<!-- BEGIN:CURRENT-FOCUS-DETAIL -->`, and `<!-- BEGIN:CONTEXT-SESSION-LLM-THINKING-NOTES-AREA -->`.
+- Update the Focus Summary first; keep it concise (3–5 bullets). Use the Focus Detail section for phases, risks, constraints, and immediate actions.
+- When plans change, update `TODO.md` first, then reflect the change here. Add a corresponding CHANGELOG entry after verification.
+- Rotate/trim Notes frequently. Leave breadcrumbs that link to relevant CHANGELOG entries or TODO items.
+
+Workflow Expectations
+
+- Start of session: Read `TODO.md` (Current/Next), skim latest day in `CHANGELOG.md`, update Focus Summary/Detail.
+- Implementation cadence: Make minimal, focused edits. Run `npm run compile && npm test`. If touching docs or governance, consider `npm run prebuild`.
+- After changes: Add a CHANGELOG entry with Problem/Context, Changes Made, Testing, Impact, and a Verification block.
+- Hygiene: Prefer American English; avoid “above/below” references; wrap file paths and commands in backticks.
+
+Formatting Conventions
+
+- Section titles in Title Case. Bullets should be short, action-oriented, and grouped by theme.
+- Use fenced code blocks with language tags for commands and examples.
+- Do not embed long code or logs here—link to files/tests and summarize outcomes.
+
+<!-- END:COPILOT_INSTRUCTIONS -->
+<!-- BEGIN:CURRENT-FOCUS-SUMMARY -->
+
+## Current Focus Summary
+
+- Focus: repo-ops CLI rebuild (next-gen repo-ops-next).
+- Current P1 from TODO.md: Repo-ops CLI Rebuild (Next-Gen) – Robust, typed, config-driven tooling for TODO/CONTEXT-SESSION/CHANGELOG
+- Focus: repo-ops CLI rebuild (argument parsing, exit codes, and governance flows) on branch `feat/repo-ops-cli-rebuild`.
+- Goal: make repo-ops a robust, typed, config-driven CLI for `TODO.md`, `CONTEXT-SESSION.md`, and `CHANGELOG.md` so governance workflows are reliable.
+- Scope (immediate): `bin/repo-ops/**` (shared flag parser, changelog/todo/session commands, tests) plus README/docs touch-ups.
+- Scope (next): Types Purity refactor in `src/types/**`, then the broader `src/**` integrity review checklist below.
+- Status: shared `parseFlags` wired into `todo` and all `changelog` subcommands; Jest tests green after refactor.
+
+<!-- END:CURRENT-FOCUS-SUMMARY -->
+<!-- BEGIN:CURRENT-FOCUS-DETAIL -->
+
+## Current Focus Detail
+
+### Current – Repo-ops CLI Rebuild (Next-Gen)
+
+Objective: Build a new, clean repo-ops CLI under `bin/repo-ops-next/**`, side-by-side with the legacy `bin/repo-ops` code, then migrate once the new implementation is stable.
+
+Immediate Focus (Current P1 from `TODO.md`)
+
+- Legacy vs next-gen
+  - Legacy `bin/repo-ops` CLI remains in place as a reference and fallback; behavior is captured in existing tests and prior changelog entries.
+  - New work will occur in `bin/repo-ops-next/**` as a greenfield implementation to avoid risky refactors in the old tree.
+- Initial focus for next-gen CLI
+  - Define the new CLI surface (subcommands, flags, exit-code semantics) in a dedicated `bin/repo-ops-next/README.md`.
+  - Scaffold a minimal TypeScript entrypoint and shared helpers (flag parser, IO utilities) under `bin/repo-ops-next/**`.
+- TODO/session flows (planned)
+  - Implement TODO and session commands in the new CLI using governance rules and markers from `TODO.md` and `.github/copilot-instructions.md`.
+
+Planned Verification
+
+- Continue to run `npm test` after each significant repo-ops slice (flags, exit codes, TODO/session changes).
+- Once the rebuilt CLI surface stabilizes, add an end-to-end test that exercises: add TODO → rotate session → write changelog entry → verify consistency.
+
+### Next – Integrity Review `src/**` and MCP Server
+
+Objective (Next P1): After repo-ops CLI rebuild is stable, perform a structured integrity review of the core MCP server and agent infrastructure under `src/**`.
+
+Key Constraints
+
+- Agent isolation: orchestrator coordinates; agents return typed data only; formatting stays in `CommunicationAgent`.
+- Data-driven behavior: no hardcoded business values; derive categories, IDs, and examples from config/runtime data.
+- Single JSON-RPC dispatcher reused across transports; stdio default, HTTP guarded by env.
+- TypeScript-only code for agents, server, and validation harnesses.
+
+Initial Pass Targets (Granular Checklist)
+
+1. Server (`src/server/**`)
+
+- JSON-RPC dispatcher integrity:
+  - Confirm a single dispatcher handles `initialize`, `tools/list`, and `tools/call` for both stdio and HTTP.
+  - Verify error shapes match JSON-RPC 2.0 (codes, messages, `data` usage) and are stable across transports.
+  - Check that unsupported methods and invalid params never leak stack traces or internal details.
+- Transport guards and configuration:
+  - Ensure stdio is the default transport; HTTP only enabled behind `MCP_HTTP_ENABLED`.
+  - Confirm there is no per-transport divergence in logic (only path/wiring differences).
+- Dynamic tools registry:
+  - Verify `getTools` resolves tool descriptors exclusively from orchestrator/config, with no hardcoded arrays or business IDs.
+  - Confirm tools reported in `tools/list` have consistent schemas and names with orchestrator definitions.
+- Logging and failure modes:
+  - Check server logging is structured and not excessively noisy under normal operation.
+  - Confirm catastrophic errors fail gracefully and do not wedge the process.
+
+1. Agents (`src/agent/**`)
+
+- Isolation and responsibilities:
+  - Confirm no agent imports another agent directly; all coordination flows through the orchestrator.
+  - Ensure `CommunicationAgent` is formatting-only, with no hidden data access or config writes.
+  - Verify `ClarificationAgent`, `DatabaseAgent`, `DataAgent`, and `UserContextAgent` consume only typed config/manifest data.
+- Config-driven behavior (no hardcoding):
+  - Audit for hardcoded category IDs, names, or business strings; ensure they all come from configuration or descriptors.
+  - Confirm `ClarificationAgent` examples/capabilities are derived from config/manifest only.
+  - Validate `DatabaseAgent` operators and queries rely on schema and config metadata, not inline business assumptions.
+- Error handling and telemetry:
+  - Verify agents do not throw unhandled errors for expected edge cases (missing categories, malformed records, etc.).
+  - Check telemetry/logging paths for sensitive data and volume; ensure they align with governance.
+- UserContextAgent data roots:
+  - Confirm data-root detection and external override behavior are deterministic, documented, and safe when directories are missing.
+  - Review cache/snapshot behavior so corruption and partial failures are handled via warnings, not crashes.
+
+1. Shared helpers (`src/shared/**`)
+
+- Config and validation modules:
+  - Confirm `shared/config/**` and `shared/validation/**` contain all runtime logic previously extracted from `src/types/**`.
+  - Cross-check descriptor maps, runtime config helpers, and validator implementations for no hardcoded business IDs or category names.
+  - Ensure error reporting and result shapes are consistent and documented.
+- Environment and IDs:
+  - Verify `env.ts` derives names and cache directories consistently and matches docs/README.
+  - Confirm `ids.ts` remains the single source of truth for IDs shared between manifest/config and extension contributions.
+- Analytics and logging utilities:
+  - Audit analytics and workflow logging helpers for respect of configuration toggles.
+  - Ensure safe behavior when telemetry sinks fail or are unavailable.
+  - Check there are no circular dependencies with agents or server.
+
+1. Types (`src/types/**`)
+
+- Types-only enforcement:
+  - Confirm no runtime logic remains in `src/types/**` beyond explicitly allowed patterns.
+  - Ensure `types.purity.test.ts` covers the current set of forbidden patterns and matches shared validation moves.
+- TSDoc and clarity:
+  - Spot-check high-traffic type surfaces (agentConfig, applicationConfig, userContext.types, workflow.types) for clear, accurate TSDoc.
+  - Verify there are no stale references to pre-refactor locations (e.g., validators now in `src/shared/**`).
+
+1. MCP config and docs (`src/mcp/**`, `src/docs/**`)
+
+- Schema and validation:
+  - Confirm `schemaUtils` checks align with the latest category/relationship definitions and errors are actionable.
+  - Ensure knowledge base utilities do not assume specific categories or datasets.
+- Prompts and manifest:
+  - Verify prompt generators use manifest data and do not embed hardcoded business examples.
+  - Check that manifest metadata for each agent is consistent with orchestrator/agent behavior and the dynamic tools registry.
+
+1. Extension integration (`src/extension/**`)
+
+- MCP registration:
+  - Confirm MCP registration logic points to the correct config locations on all platforms (including Insiders/OSS variants).
+  - Ensure registration removal/refresh paths do not leave stale entries.
+- Cache and logs:
+  - Verify extension-level cache behavior matches the hidden cache directory pattern and cannot corrupt user data.
+  - Check that log volume and locations are reasonable for typical VS Code usage.
+
+1. Tests as guardrails (`tests/**`)
+
+- Coverage and gaps:
+  - Map each of the above areas to existing tests (server/orchestrator, agents, shared/config/validation).
+  - Identify critical paths in `src/server/**` or `src/agent/**` that currently lack direct test coverage.
+- Repo-ops and governance:
+  - Use `repoOps.*.test.ts` and `sessionLint` tests to keep governance tooling aligned, while keeping the primary focus on `src/**` integrity.
+
+<!-- END:CURRENT-FOCUS-DETAIL -->
+<!-- BEGIN:CONTEXT-SESSION-LLM-THINKING-NOTES-AREA -->
+
+### Notes – Repo-ops CLI Rebuild Context (2025-11-16)
+
+- Branch state: working on `feat/repo-ops-cli-rebuild`; prior changelog stabilization work is already merged.
+- Current priority (Current P1 in `TODO.md`) is still the repo-ops CLI rebuild, but strategy has shifted from refactoring `bin/repo-ops` to building a new CLI under `bin/repo-ops-next`.
+- Recent progress: legacy CLI refactor work (shared flag parser, changelog wiring) has been snapshotted in a commit for reference; test suite is green.
+- Near-term focus: design and scaffold the next-gen CLI in `bin/repo-ops-next/**` (entrypoint, helpers, docs), then incrementally add TODO/session/changelog capabilities.
+
+<!-- END:CONTEXT-SESSION-LLM-THINKING-NOTES-AREA -->

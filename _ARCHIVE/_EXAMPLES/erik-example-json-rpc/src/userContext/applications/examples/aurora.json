@@ -1,0 +1,12 @@
+{
+  "description": "Analytics data lake platform entry.",
+  "sample": {
+    "id": "app-aurora",
+    "name": "Aurora Lake",
+    "type": "data-platform",
+    "ownerDepartmentId": "dept-analytics",
+    "criticality": "high",
+    "relatedPolicyIds": ["policy-data-handling"],
+    "resourceIds": ["resource-analytics-playbook"]
+  }
+}

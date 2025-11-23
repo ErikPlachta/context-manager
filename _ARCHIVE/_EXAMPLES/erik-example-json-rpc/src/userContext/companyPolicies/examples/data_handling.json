@@ -1,0 +1,12 @@
+{
+  "description": "Data handling standard reference.",
+  "sample": {
+    "id": "policy-data-handling",
+    "title": "Data Handling Standard",
+    "category": "Security",
+    "summary": "Guidelines for ingesting, storing, and sharing company data.",
+    "ownerDepartmentId": "dept-operations",
+    "relatedResourceIds": ["resource-data-handbook"],
+    "applicationIds": ["app-aurora", "app-atlas"]
+  }
+}
