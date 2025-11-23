@@ -1,7 +1,11 @@
-import { defineConfig } from 'evalite';
+/**
+ * Evalite Configuration
+ *
+ * Configuration for LLM evaluation tests
+ */
 
-export default defineConfig({
-  tests: 'tests/eval/**/*.eval.ts',
+export default {
+  tests: 'src/**/*.eval.ts',
   maxConcurrency: 3,
   timeout: 30000
-});
+};

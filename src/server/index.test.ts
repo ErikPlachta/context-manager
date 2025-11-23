@@ -2,24 +2,36 @@
  * Unit tests for MCP Server
  */
 
-import { describe, it, expect } from 'vitest';
-import { createServer, config, handleEchoTool } from './index.js';
+import { describe, it, expect, beforeAll } from 'vitest';
+import { createServer, config, getSkillRegistry } from './index.js';
+import type { Server } from '@modelcontextprotocol/sdk/server/index.js';
 
 describe('MCP Server', () => {
-  describe('createServer', () => {
-    it('should create McpServer instance', () => {
-      const server = createServer();
+  let server: Server;
 
+  // Create server once for all tests
+  beforeAll(async () => {
+    server = await createServer();
+  });
+
+  describe('createServer', () => {
+    it('should create Server instance', () => {
       expect(server).toBeDefined();
-      expect(server.server).toBeDefined();
     });
 
-    it('should have correct server info', () => {
-      const server = createServer();
+    it('should load skills on initialization', () => {
+      const registry = getSkillRegistry();
 
-      // Access underlying Server instance
-      expect(server.server['_serverInfo'].name).toBe(config.name);
-      expect(server.server['_serverInfo'].version).toBe(config.version);
+      expect(registry.size).toBeGreaterThan(0);
+      expect(registry.toolCount).toBeGreaterThan(0);
+    });
+
+    it('should have mcp-governance skill', () => {
+      const registry = getSkillRegistry();
+
+      const skill = registry.get('mcp-governance');
+      expect(skill).toBeDefined();
+      expect(skill?.tools.length).toBe(4);
     });
   });
 
@@ -31,26 +43,13 @@ describe('MCP Server', () => {
     });
   });
 
-  describe('handleEchoTool', () => {
-    it('should echo the input message', async () => {
-      const input = { message: 'Hello, World!' };
-      const result = await handleEchoTool(input);
+  describe('skill registry', () => {
+    it('should find tools by name', () => {
+      const registry = getSkillRegistry();
 
-      expect(result).toBe('Echo: Hello, World!');
-    });
-
-    it('should handle empty messages', async () => {
-      const input = { message: '' };
-      const result = await handleEchoTool(input);
-
-      expect(result).toBe('Echo: ');
-    });
-
-    it('should handle special characters', async () => {
-      const input = { message: '!@#$%^&*()' };
-      const result = await handleEchoTool(input);
-
-      expect(result).toBe('Echo: !@#$%^&*()');
+      const skill = registry.findByTool('read_todo');
+      expect(skill).toBeDefined();
+      expect(skill?.id).toBe('mcp-governance');
     });
   });
 });

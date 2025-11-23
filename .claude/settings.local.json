@@ -6,14 +6,17 @@
       "Bash(pnpm build:server:*)",
       "Bash(pnpm test:unit:*)",
       "Bash(timeout 2 node:*)",
-      "Bash(pnpm clean:*)"
+      "Bash(pnpm clean:*)",
+      "Bash(timeout 3 node:*)",
+      "Bash(mkdir:*)",
+      "Bash(pnpm test:eval:*)"
     ],
     "deny": [],
     "ask": []
   },
   "statusLine": {
     "type": "command",
-    "command": ".claude/statusline.sh",
+    "command": "bash C:/repo/context-manager/.claude/statusline.sh",
     "padding": 0
   }
 }

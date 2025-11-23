@@ -9,6 +9,8 @@ dist/
 # Tests
 coverage/
 .vitest/
+Test/
+test/
 
 # Logs
 *.log

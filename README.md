@@ -5,22 +5,39 @@ Skill-driven MCP Server with VS Code Extension for intelligent context managemen
 ## Project Status
 
 **Phase 0: Foundation & Setup** ✅ Complete
+**Phase 2: Skill System & mcp-governance** ✅ Complete
 
 ## Structure
 
-```md
+```
 context-manager/
 ├── src/
-│ ├── server/           # MCP Server (Orchestrator + Skills)
-│ │ └── *.test.ts       # Unit tests (co-located)
-│ ├── client/           # VS Code Extension (MCP Client)
-│ ├── shared/           # Reusable utilities and tools
-│ └── types/            # TypeScript type definitions
-├── scripts/            # Build and development scripts
-├── tests/
-│ └── eval/             # Evalite LLM evaluation tests
-└── dist/               # Build outputs
+│   ├── server/
+│   │   ├── index.ts
+│   │   ├── index.test.ts        # Unit test (co-located)
+│   │   ├── core/
+│   │   │   ├── skill-registry.ts
+│   │   │   └── skill-registry.test.ts
+│   │   └── skills/
+│   │       └── mcp-governance/
+│   │           ├── index.ts
+│   │           ├── tools.ts
+│   │           ├── handlers.ts
+│   │           └── governance.eval.ts  # Evalite test (co-located)
+│   ├── shared/
+│   │   └── file-system-tool/
+│   │       ├── index.ts
+│   │       └── index.test.ts    # Unit test (co-located)
+│   └── types/
+├── scripts/                      # Build scripts
+└── dist/                         # Build outputs
 ```
+
+**Testing Structure:**
+- **Unit tests** (`*.test.ts`) - Live next to implementation
+- **Evalite tests** (`*.eval.ts`) - Live next to skill/feature tested
+- All tests co-located with code they test
+- No separate test directories
 
 ## Commands
 
@@ -32,9 +49,9 @@ pnpm build:extension    # Build VS Code extension only
 pnpm clean              # Clean build outputs
 
 # Test
-pnpm test               # Run all tests
-pnpm test:unit          # Run Vitest tests
-pnpm test:eval          # Run Evalite tests
+pnpm test               # Run all tests (unit + eval)
+pnpm test:unit          # Run Vitest tests (src/**/*.test.ts)
+pnpm test:eval          # Run Evalite tests (src/**/*.eval.ts)
 pnpm test:watch         # Watch mode
 
 # Development
@@ -62,4 +79,4 @@ pnpm lint:fix           # Lint and fix
 
 See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for full roadmap.
 
-**Phase 1**: Core MCP Server with `echo` tool
+**Next**: Phase 3 - Shared Services Layer
