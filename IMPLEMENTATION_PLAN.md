@@ -15,7 +15,9 @@
 3. Create tsconfig files (root, server, extension)
 4. Create vitest.config.ts, evalite.config.ts
 5. Setup ESLint
-6. Create folder structure (src/, scripts/, tests/, dist/)
+6. Create folder structure (src/, scripts/, tests/eval/, dist/)
+   - Note: `.test.ts` files live next to implementation, not in separate tests/ folder
+   - Only Evalite tests use tests/eval/ folder
 7. Create build scripts (build.ts, clean.ts)
 
 **Deliverable**: Empty but configured project that builds
@@ -53,8 +55,8 @@
    - Launch MCP inspector pointing to server
 
 5. Write tests:
-   - `tests/unit/server/index.test.ts` - Server initialization
-   - Basic tool call test
+   - `src/server/index.test.ts` - Server initialization and tool tests
+   - Tests live next to implementation files
 
 **Deliverable**: MCP server that responds to `echo` tool via inspector
 
@@ -102,9 +104,9 @@
    - Error handling
 
 5. Write tests:
-   - `tests/unit/server/core/` - Skill loader, registry, router tests
-   - `tests/unit/server/skills/mcp-governance/` - Skill tests
-   - `tests/eval/skills/governance.eval.ts` - Evalite LLM tests
+   - `src/server/core/*.test.ts` - Skill loader, registry, router tests (co-located)
+   - `src/server/skills/mcp-governance/*.test.ts` - Skill unit tests (co-located)
+   - `tests/eval/skills/governance.eval.ts` - Evalite LLM integration tests
 
 **Deliverable**: Server loads mcp-governance skill, exposes 4 tools
 

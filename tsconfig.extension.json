@@ -6,5 +6,5 @@
     "types": ["node", "vscode"]
   },
   "include": ["src/client/**/*", "src/shared/**/*", "src/types/**/*"],
-  "exclude": ["src/server/**/*"]
+  "exclude": ["src/server/**/*", "**/*.test.ts", "**/*.spec.ts"]
 }

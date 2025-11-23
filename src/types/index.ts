@@ -4,5 +4,18 @@
  * This is the main barrel export for all types used across the application.
  */
 
-// Placeholder - types will be added in Phase 1
-export {};
+// MCP Protocol types
+export type {
+  MCPToolDefinition,
+  MCPToolHandler,
+  MCPToolRegistration,
+  MCPServerConfig,
+  MCPToolResult
+} from './mcp.types.js';
+
+// Skill System types
+export type {
+  Skill,
+  SkillLoadResult,
+  SkillRegistry
+} from './skill.types.js';

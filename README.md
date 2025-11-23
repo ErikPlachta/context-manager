@@ -8,19 +8,18 @@ Skill-driven MCP Server with VS Code Extension for intelligent context managemen
 
 ## Structure
 
-```
+```md
 context-manager/
 ├── src/
-│   ├── server/          # MCP Server (Orchestrator + Skills)
-│   ├── client/          # VS Code Extension (MCP Client)
-│   ├── shared/          # Reusable utilities and tools
-│   └── types/           # TypeScript type definitions
-├── scripts/             # Build and development scripts
+│ ├── server/           # MCP Server (Orchestrator + Skills)
+│ │ └── *.test.ts       # Unit tests (co-located)
+│ ├── client/           # VS Code Extension (MCP Client)
+│ ├── shared/           # Reusable utilities and tools
+│ └── types/            # TypeScript type definitions
+├── scripts/            # Build and development scripts
 ├── tests/
-│   ├── unit/            # Vitest unit tests
-│   └── eval/            # Evalite LLM evaluation tests
-└── dist/                # Build outputs
-
+│ └── eval/             # Evalite LLM evaluation tests
+└── dist/               # Build outputs
 ```
 
 ## Commands

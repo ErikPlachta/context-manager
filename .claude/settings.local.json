@@ -2,9 +2,18 @@
   "permissions": {
     "allow": [
       "Bash(pnpm build:*)",
-      "Bash(pnpm typecheck:*)"
+      "Bash(pnpm typecheck:*)",
+      "Bash(pnpm build:server:*)",
+      "Bash(pnpm test:unit:*)",
+      "Bash(timeout 2 node:*)",
+      "Bash(pnpm clean:*)"
     ],
     "deny": [],
     "ask": []
+  },
+  "statusLine": {
+    "type": "command",
+    "command": ".claude/statusline.sh",
+    "padding": 0
   }
 }
