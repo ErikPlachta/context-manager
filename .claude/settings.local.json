@@ -9,7 +9,8 @@
       "Bash(pnpm clean:*)",
       "Bash(timeout 3 node:*)",
       "Bash(mkdir:*)",
-      "Bash(pnpm test:eval:*)"
+      "Bash(pnpm test:eval:*)",
+      "Bash(pnpm add:*)"
     ],
     "deny": [],
     "ask": []
