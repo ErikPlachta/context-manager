@@ -8,10 +8,12 @@ Skill-driven MCP Server with VS Code Extension for intelligent context managemen
 **Phase 1: Core MCP Server** ✅ Complete
 **Phase 2: Skill System & mcp-governance** ✅ Complete
 **Phase 3: Shared Services Layer** ✅ Complete (Proof of Concept)
+**Phase 4: VS Code Extension Integration** ✅ Complete (Proof of Concept, Untested)
 
-**Current**: Phase 4 - VS Code Extension Integration
+**Current**: Phase 4.5 - PoC Verification & Testing
 
 **Test Coverage**: 149 tests passing across 11 test files
+**Extension Build**: ✅ Builds successfully (manual testing required)
 
 ## Structure
 
@@ -49,8 +51,11 @@ context-manager/
 │   ├── types/
 │   │   ├── mcp.types.ts               # MCP protocol types
 │   │   └── skill.types.ts             # Skill interface
-│   └── client/                        # (Phase 4 - upcoming)
-│       └── vs-code/                   # VS Code extension
+│   └── client/                        # VS Code Extension
+│       └── vs-code/
+│           ├── extension.ts           # Extension entry point
+│           ├── mcp-client.ts          # MCP STDIO client
+│           └── commands.ts            # VS Code commands (5 total)
 ├── scripts/                           # Build & dev scripts
 └── dist/                              # Build outputs
 ```
@@ -112,8 +117,38 @@ All shared services include TypeScript types, singleton patterns, and comprehens
 
 *Note: Phase 3 services are proof of concept implementations with simulated/placeholder logic where production integrations would occur.*
 
+## VS Code Extension (Phase 4 - PoC, Untested)
+
+Extension integrates MCP server with VS Code via STDIO communication:
+
+**Components:**
+- **extension.ts** - Lifecycle management (activate/deactivate)
+- **mcp-client.ts** - STDIO client for server communication
+- **commands.ts** - VS Code command palette integration
+
+**Available Commands:**
+1. `List Available Tools` - Show all MCP tools from server
+2. `Call Tool` - Interactive tool execution
+3. `Read TODO` - Read TODO.md via governance skill
+4. `Update TODO` - Update TODO.md via governance skill
+5. `Show Server Status` - Display connection status
+
+**Status:** ✅ Builds successfully | ⚠️ Requires manual testing in VS Code
+
 ## Next Steps
 
 See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for full roadmap.
 
-**Next**: Phase 4 - VS Code Extension Integration
+**Next Steps:**
+
+**Phase 4.5 - Verification (Current):**
+1. Manual extension testing in VS Code
+2. Validate server ↔ extension communication
+3. Test all 5 commands end-to-end
+4. Gather feedback and questions
+5. Identify gaps/issues
+
+**After Verification:**
+- **Phase 5**: Advanced features based on feedback
+- **Production**: Remove PoC placeholders, real integrations
+- **Pivot**: Architecture changes if needed
