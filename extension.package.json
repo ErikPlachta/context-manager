@@ -4,6 +4,10 @@
   "description": "Skill-driven MCP Server for intelligent context management",
   "version": "0.0.1",
   "publisher": "context-manager",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/context-manager/context-manager.git"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -58,10 +62,7 @@
       }
     }
   },
-  "scripts": {
-    "vscode:prepublish": "pnpm build:extension",
-    "package": "vsce package"
-  },
+  "scripts": {},
   "devDependencies": {
     "@types/vscode": "^1.85.0",
     "@vscode/vsce": "^2.22.0"
