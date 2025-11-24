@@ -315,39 +315,59 @@
 
 **Tasks**:
 
-1. Add more skills (examples):
+1. Establish a more data driven design:
 
-   - `user-context` management functionality onboarded
-     - Based on design in `C:\repo\context-manager\_ARCHIVE\_EXAMPLES\erik-example-json-rpc\src\userContext` and `C:\repo\context-manager\_ARCHIVE\_EXAMPLES\erik-example-json-rpc\src\agent\userContextAgent`.
-     - Rebuilt using new shared user-context service and MCP skill system.
+   - Review old codebase for reference:
+     - Config Data: `C:\repo\context-manager\_ARCHIVE\_EXAMPLES\erik-example-json-rpc\src\config`
+     - Config Logic: `C:\repo\context-manager\_ARCHIVE\_EXAMPLES\erik-example-json-rpc\src\shared\config`.
+   - Determine where our current codebase can be made more data driven.
+   - Implement changes to make the codebase more data driven where applicable from top down
+   - Think big picture, how can we make the codebase more maintainable, extensible, and easier to onboard new developers.
+   - Focus on making the user-context more data driven as a priority.
 
 2. Enhanced user-context:
 
-   - UI for editing context in VS Code
-   - Context relationship validation
    - Migration system for context schema changes
+   - Context relationship validation
+   - Default user-context should exist with basic test data, clearly stating it's example data.
+     - Used old codebase example for reference:
+       - Example Data: `C:\repo\context-manager\_ARCHIVE\_EXAMPLES\erik-example-json-rpc\src\userContext`
+       - Example Ingestion: `C:\repo\context-manager\_ARCHIVE\_EXAMPLES\erik-example-json-rpc\src\agent\userContextAgent`.
+   - UI for editing context in VS Code
+     - Onboarding solution to assist user in creating their own user-context file.
+     - User Interface to define source(s) relationship(s), etc, etc.
+     - Ability to define User-Context Types of local and support data-types of JSON. (Would require schema validation, versioning, migration strategy, etc.)
+     - Ability to read and update user-context via tools.
+     - Local caching within workspace along with global caching options too
 
-3. Comprehensive testing:
+3. Enhanced VS Code Extension:
+
+   - Status bar integration
+   - Settings for customization taking new Data Driven design into account
+   - Improved error messages
+   - Better UI/UX for commands
+
+4. Comprehensive testing:
 
    - Integration tests (end-to-end)
    - Performance tests
    - Error scenario tests
    - More Evalite scenarios
 
-4. Documentation:
+5. Documentation:
 
    - README.md - Setup, usage
    - CONTRIBUTING.md - Dev guide
    - API.md - Skill API docs
    - User guide for extension
 
-5. DevX improvements:
+6. DevX improvements:
 
    - Better logging/debugging
    - Hot reload for skills
    - Skill scaffolding CLI
 
-6. Security hardening:
+7. Security hardening:
    - Input validation everywhere
    - Sandboxing for skills
    - Rate limiting
