@@ -2,7 +2,7 @@
   "name": "context-manager",
   "displayName": "Context Manager",
   "description": "Skill-driven MCP Server for intelligent context management",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "context-manager",
   "repository": {
     "type": "git",
