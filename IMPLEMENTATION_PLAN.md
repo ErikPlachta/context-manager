@@ -317,13 +317,16 @@
 
 1. Establish a more data driven design:
 
-   - Review old codebase for reference:
+   - Establish a clear object response pattern for all logic to follow through a shared utility
+     - Should flexible and consistent across all logic to ensure logging, collab, error management, and debugging is streamlined.
+     - Will make it really easy to onboard new developers to the codebase as well as maintain and extend going forward.
+   - Identify & Onboard Config driven design in old codebase:
      - Config Data: `C:\repo\context-manager\_ARCHIVE\_EXAMPLES\erik-example-json-rpc\src\config`
      - Config Logic: `C:\repo\context-manager\_ARCHIVE\_EXAMPLES\erik-example-json-rpc\src\shared\config`.
-   - Determine where our current codebase can be made more data driven.
-   - Implement changes to make the codebase more data driven where applicable from top down
-   - Think big picture, how can we make the codebase more maintainable, extensible, and easier to onboard new developers.
-   - Focus on making the user-context more data driven as a priority.
+     - Determine where our current codebase can be made more data driven.
+     - Implement changes to make the codebase more data driven where applicable from top down
+     - Think big picture, how can we make the codebase more maintainable, extensible, and easier to onboard new developers.
+     - Focus on making the user-context more data driven as a priority.
 
 2. Enhanced user-context:
 
@@ -347,27 +350,39 @@
    - Improved error messages
    - Better UI/UX for commands
 
-4. Comprehensive testing:
+4. Verify we have all desired skills:
+
+   - Review old code base agents for skill ideas:
+     - Agents: `C:\repo\context-manager\_ARCHIVE\_EXAMPLES\erik-example-json-rpc\src\agent`
+     - Shared: `C:\repo\context-manager\_ARCHIVE\_EXAMPLES\erik-example-json-rpc\src\shared`
+   - Implement additional skills:
+     - Communication - handles composing a unified message to user or LLM.
+     - HandleData - Database, API, XML, JSON, CSV, etc. (validate, transform, extract, compare, etc. )
+     - Clarification - ( gets all skills and context, tries to understand request, and if can't figure it out pushes up to orchestrator to get the request clarified )
+     - Workflow - orchestrates multi-step processes across skills, potentially with the sequential-thinking service.
+     - Validation - takes schemas, data, and ensures data meets schema requirements, can auto-correct simple issues or alert etc.
+
+5. Comprehensive testing:
 
    - Integration tests (end-to-end)
    - Performance tests
    - Error scenario tests
    - More Evalite scenarios
 
-5. Documentation:
+6. Documentation:
 
    - README.md - Setup, usage
    - CONTRIBUTING.md - Dev guide
    - API.md - Skill API docs
    - User guide for extension
 
-6. DevX improvements:
+7. DevX improvements:
 
    - Better logging/debugging
    - Hot reload for skills
    - Skill scaffolding CLI
 
-7. Security hardening:
+8. Security hardening:
    - Input validation everywhere
    - Sandboxing for skills
    - Rate limiting
