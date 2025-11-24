@@ -66,15 +66,22 @@ try {
     copyFileSync('LICENSE', join(EXTENSION_DIST, 'LICENSE'));
   }
 
-  // Step 6: Package with vsce
-  console.log('6️⃣  Creating VSIX package...');
-  execSync('vsce package --no-dependencies --allow-missing-repository --skip-license', {
+  // Step 6: Install dependencies in package directory
+  console.log('6️⃣  Installing dependencies...');
+  execSync('npm install --production', {
     cwd: EXTENSION_DIST,
     stdio: 'inherit'
   });
 
-  // Step 7: Move VSIX to root
-  console.log('7️⃣  Moving VSIX to root...');
+  // Step 7: Package with vsce
+  console.log('7️⃣  Creating VSIX package...');
+  execSync('vsce package --allow-missing-repository --skip-license', {
+    cwd: EXTENSION_DIST,
+    stdio: 'inherit'
+  });
+
+  // Step 8: Move VSIX to root
+  console.log('8️⃣  Moving VSIX to root...');
   const files = readdirSync(EXTENSION_DIST);
   const vsixFiles = files.filter(f => f.endsWith('.vsix'));
 

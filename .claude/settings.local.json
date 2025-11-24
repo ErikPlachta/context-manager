@@ -11,7 +11,8 @@
       "Bash(mkdir:*)",
       "Bash(pnpm test:eval:*)",
       "Bash(pnpm add:*)",
-      "Bash(pnpm build:extension:*)"
+      "Bash(pnpm build:extension:*)",
+      "Bash(pnpm package:*)"
     ],
     "deny": [],
     "ask": []

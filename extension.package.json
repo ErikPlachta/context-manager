@@ -41,6 +41,16 @@
         "category": "Context Manager"
       },
       {
+        "command": "context-manager.readContext",
+        "title": "Read Context",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.updateContext",
+        "title": "Update Context",
+        "category": "Context Manager"
+      },
+      {
         "command": "context-manager.status",
         "title": "Show Server Status",
         "category": "Context Manager"

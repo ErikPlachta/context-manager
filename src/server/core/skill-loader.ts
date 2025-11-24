@@ -6,7 +6,7 @@
 
 import { readdir } from 'fs/promises';
 import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import type { Skill, SkillLoadResult } from '../../types/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,16 +23,26 @@ export async function loadSkills(skillsDir?: string): Promise<SkillLoadResult> {
   const loaded: Skill[] = [];
   const failed: Array<{ path: string; error: Error }> = [];
 
+  console.error(`[Loader] Skills directory: ${dir}`);
+  console.error(`[Loader] __dirname: ${__dirname}`);
+
   try {
     const entries = await readdir(dir, { withFileTypes: true });
+    console.error(`[Loader] Found ${entries.length} entries in skills directory`);
 
     for (const entry of entries) {
-      if (!entry.isDirectory()) continue;
+      if (!entry.isDirectory()) {
+        console.error(`[Loader] Skipping non-directory: ${entry.name}`);
+        continue;
+      }
 
       const skillPath = join(dir, entry.name, 'index.js');
+      console.error(`[Loader] Loading skill from: ${skillPath}`);
 
       try {
-        const module = await import(skillPath);
+        // Convert Windows path to file:// URL for ES module import
+        const skillUrl = pathToFileURL(skillPath).href;
+        const module = await import(skillUrl);
         const skill: Skill = module.default || module.skill;
 
         if (!isValidSkill(skill)) {

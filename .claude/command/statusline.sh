@@ -74,19 +74,19 @@ if [[ -n "$transcript" && -f "$transcript" ]]; then
       reset="\033[0m"
 
       # Format: used/remaining (pct%) compaction%↓
-      tokens=" | ${color}${input_fmt}/${remaining_fmt} (${pct}%)${reset} ${compact_pct}%↓"
+      tokens="${color}${input_fmt}/${remaining_fmt} - Reset:(${pct}%)${reset} - Compact:${compact_pct}%↓"
     fi
   fi
 
   # Session cost & message count
   if [[ -n "$session_cost" ]]; then
     cost_rounded=$(printf "%.2f" $session_cost 2>/dev/null || echo $session_cost)
-    api_usage=" | \$${cost_rounded}"
+    api_usage="\$${cost_rounded}"
   fi
 
   msg_count=$(grep -c '"type":"assistant"' "$transcript" 2>/dev/null)
   if [[ -n "$msg_count" ]]; then
-    api_usage="${api_usage} (${msg_count}m)"
+    api_usage="${api_usage} (${msg_count}msg)"
   fi
 fi
 
@@ -98,6 +98,6 @@ time=$(date +"%H:%M")
 
 # Output
 if [ -n "$branch" ]; then
-  echo -e "  $branch | M:$modified A:$added ?:$untracked${tokens}${api_usage} | $model_short | $time"
+  echo -e "$time | ${branch_colored}${git_stats} | $model_short - ${tokens} - ${api_usage}"
 fi
 

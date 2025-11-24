@@ -7,37 +7,84 @@
 import * as vscode from 'vscode';
 import { MCPClient } from './mcp-client.js';
 import { registerCommands } from './commands.js';
+import { ensureRegistration, removeRegistration } from './mcp-registration.js';
 import { join } from 'path';
+import { existsSync } from 'fs';
 
 let mcpClient: MCPClient | null = null;
 let outputChannel: vscode.OutputChannel;
+
+const MCP_SERVER_ID = 'context-manager';
 
 /**
  * Activate extension
  */
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
-  console.log('[Extension] Activating Context Manager...');
+  const log = (msg: string) => {
+    console.log(`[Extension] ${msg}`);
+    if (outputChannel) outputChannel.appendLine(msg);
+  };
 
-  // Create output channel
-  outputChannel = vscode.window.createOutputChannel('Context Manager');
-  outputChannel.appendLine('Context Manager extension activated');
+  console.log('[Extension] === ACTIVATION START ===');
 
   try {
-    // Get server path from extension
+    // Create output channel
+    outputChannel = vscode.window.createOutputChannel('Context Manager');
+    log('='.repeat(60));
+    log('Context Manager Extension Activating');
+    log('='.repeat(60));
+
+    // Get server path
+    log('Step 1: Getting server path...');
     const serverPath = getServerPath(context);
+    log(`  Extension mode: ${context.extensionMode === vscode.ExtensionMode.Development ? 'Development' : 'Production'}`);
+    log(`  Extension path: ${context.extensionPath}`);
+    log(`  Server script: ${serverPath}`);
+
+    // Verify server exists
+    log('Step 2: Verifying server file...');
+    const exists = existsSync(serverPath);
+    log(`  File exists: ${exists}`);
+    if (!exists) {
+      throw new Error(`Server script not found at: ${serverPath}`);
+    }
 
     // Create MCP client
+    log('Step 3: Creating MCP client...');
+    log(`  Command: node`);
+    log(`  Args: ${JSON.stringify([serverPath])}`);
+
     mcpClient = new MCPClient({
-      serverPath,
-      serverArgs: [],
-      env: {
-        NODE_ENV: 'production'
-      }
+      serverPath: 'node',
+      serverArgs: [serverPath],
+      env: { NODE_ENV: 'production' },
+      onStderr: (data) => {
+        data.split('\n').forEach(line => {
+          if (line.trim()) log(`  [Server] ${line}`);
+        });
+      },
+      onLog: (msg) => log(msg)
     });
+    log('  Client created successfully');
 
     // Connect to server
+    log('Step 4: Connecting to MCP server...');
     await mcpClient.connect();
-    outputChannel.appendLine('Connected to MCP server');
+    log('  Connected successfully!');
+
+    // Register MCP server in VS Code's global mcp.json
+    log('Step 5: Registering MCP server globally...');
+    try {
+      const mcpConfigPath = await ensureRegistration({
+        id: MCP_SERVER_ID,
+        command: 'node',
+        args: [serverPath],
+        env: { NODE_ENV: 'production' }
+      });
+      log(`  Registered in: ${mcpConfigPath}`);
+    } catch (error) {
+      log(`  Warning: Failed to register MCP server: ${error instanceof Error ? error.message : String(error)}`);
+    }
 
     // Register VS Code commands
     const commands = registerCommands(context, mcpClient, outputChannel);
@@ -46,7 +93,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     outputChannel.appendLine('Commands registered');
 
     // Show success notification
-    vscode.window.showInformationMessage('Context Manager: MCP server started');
+    vscode.window.showInformationMessage('Context Manager: MCP server started & registered');
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     outputChannel.appendLine(`Failed to start: ${errorMessage}`);
@@ -59,6 +106,14 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
  */
 export async function deactivate(): Promise<void> {
   console.log('[Extension] Deactivating Context Manager...');
+
+  // Unregister from global mcp.json
+  try {
+    await removeRegistration(MCP_SERVER_ID);
+    console.log('[Extension] Unregistered from mcp.json');
+  } catch (error) {
+    console.error('[Extension] Failed to unregister:', error);
+  }
 
   if (mcpClient) {
     try {
@@ -79,17 +134,21 @@ export async function deactivate(): Promise<void> {
  */
 function getServerPath(context: vscode.ExtensionContext): string {
   // In development, use built server from workspace
-  const devServerPath = join(context.extensionPath, '..', '..', 'dist', 'server', 'index.js');
+  const devServerPath = join(context.extensionPath, '..', '..', 'dist', 'server', 'server', 'index.js');
 
   // In production, use bundled server
-  const prodServerPath = join(context.extensionPath, 'dist', 'server', 'index.js');
+  const prodServerPath = join(context.extensionPath, 'dist', 'server', 'server', 'index.js');
 
   // Check if running in development
   const isDev = context.extensionMode === vscode.ExtensionMode.Development;
 
   const serverPath = isDev ? devServerPath : prodServerPath;
 
-  console.log('[Extension] Server path:', serverPath);
+  console.log('[Extension] Extension mode:', isDev ? 'Development' : 'Production');
+  console.log('[Extension] Development server path would be:', devServerPath);
+  console.log('[Extension] Production server path would be:', prodServerPath);
+  console.log('[Extension] Selected server path:', serverPath);
+
   return serverPath;
 }
 

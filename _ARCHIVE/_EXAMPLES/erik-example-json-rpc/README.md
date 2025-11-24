@@ -139,7 +139,3 @@ Follow the CHANGELOG “Unreleased” sections (Planned / Added / Changed / Fixe
 5. Include precise JSDoc (no placeholders, hyphenated param descriptions, concrete @returns).
 
 After the alias deprecation window, remove legacy agent folders and update tests to only reference the canonical name.
-
----
-
-Made with ❤️ to streamline customizable MCP tooling in Copilot Chat.

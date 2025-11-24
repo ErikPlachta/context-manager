@@ -14,6 +14,7 @@ This guide walks through manual testing of the Context Manager PoC.
 **Goal**: Verify extension loads in VS Code
 
 **Steps**:
+
 1. Open VS Code
 2. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac)
 3. Type "Extensions: Install from VSIX"
@@ -21,10 +22,12 @@ This guide walks through manual testing of the Context Manager PoC.
 5. Point to the extension directory or create VSIX with `pnpm package`
 
 **Expected**:
+
 - Extension appears in Extensions list
 - No activation errors
 
 **Issues to note**:
+
 - Extension fails to activate?
 - Error messages in Output panel?
 
@@ -35,11 +38,13 @@ This guide walks through manual testing of the Context Manager PoC.
 **Goal**: Verify MCP server starts when extension activates
 
 **Steps**:
+
 1. Open Output panel (`Ctrl+Shift+U` or `Cmd+Shift+U`)
 2. Select "Context Manager" from dropdown
 3. Look for activation messages
 
 **Expected Output**:
+
 ```
 Context Manager extension activated
 Connected to MCP server
@@ -47,6 +52,7 @@ Commands registered
 ```
 
 **Issues to note**:
+
 - Server process fails to spawn?
 - STDIO connection errors?
 - Path issues to server executable?
@@ -58,12 +64,14 @@ Commands registered
 **Goal**: Verify extension can communicate with server
 
 **Steps**:
+
 1. Press `Ctrl+Shift+P` (or `Cmd+Shift+P`)
 2. Type "Context Manager: List Available Tools"
 3. Execute command
 4. Check Output panel
 
 **Expected Output**:
+
 ```
 Available tools:
 read_todo
@@ -76,6 +84,7 @@ update_context
 "Found 4 tool(s). Check output panel for details."
 
 **Issues to note**:
+
 - No tools listed?
 - Connection error?
 - Server not responding?
@@ -87,6 +96,7 @@ update_context
 **Goal**: Test governance skill tool execution
 
 **Steps**:
+
 1. Ensure `TODO.md` exists in workspace root
 2. Press `Ctrl+Shift+P`
 3. Type "Context Manager: Read TODO"
@@ -94,6 +104,7 @@ update_context
 5. Check Output panel
 
 **Expected Output**:
+
 ```
 TODO.md contents:
 {
@@ -107,6 +118,7 @@ TODO.md contents:
 ```
 
 **Issues to note**:
+
 - File not found error?
 - Permission errors?
 - Server communication failure?
@@ -118,6 +130,7 @@ TODO.md contents:
 **Goal**: Test write operations via governance skill
 
 **Steps**:
+
 1. Press `Ctrl+Shift+P`
 2. Type "Context Manager: Update TODO"
 3. Execute command
@@ -126,6 +139,7 @@ TODO.md contents:
 6. Check Output panel
 
 **Expected Output**:
+
 ```
 TODO updated:
 {
@@ -144,6 +158,7 @@ TODO updated:
 **Verify**: Check `TODO.md` file contains new content
 
 **Issues to note**:
+
 - Write permission errors?
 - File not updated?
 - Error handling issues?
@@ -155,6 +170,7 @@ TODO updated:
 **Goal**: Test generic tool calling interface
 
 **Steps**:
+
 1. Press `Ctrl+Shift+P`
 2. Type "Context Manager: Call Tool"
 3. Execute command
@@ -164,12 +180,14 @@ TODO updated:
 7. Check Output panel
 
 **Expected**:
+
 - Tool picker shows all 4 tools
 - Each tool has description
 - Execution succeeds
 - Result appears in Output panel
 
 **Issues to note**:
+
 - Tool picker empty?
 - Arguments not parsed?
 - Execution errors?
@@ -181,11 +199,13 @@ TODO updated:
 **Goal**: Verify connection monitoring
 
 **Steps**:
+
 1. Press `Ctrl+Shift+P`
 2. Type "Context Manager: Show Server Status"
 3. Execute command
 
 **Expected Output (Output panel)**:
+
 ```
 Server status: ✓ Connected
 ```
@@ -194,6 +214,7 @@ Server status: ✓ Connected
 "Context Manager: ✓ Connected (4 tools available)"
 
 **Issues to note**:
+
 - Shows disconnected when connected?
 - Tool count incorrect?
 
@@ -204,17 +225,20 @@ Server status: ✓ Connected
 **Goal**: Verify graceful error handling
 
 **Steps**:
+
 1. Call a tool with invalid arguments
 2. Try to read non-existent file
 3. Close server manually (kill process)
 4. Try to execute command
 
 **Expected**:
+
 - Clear error messages
 - No crashes
 - Output panel shows error details
 
 **Issues to note**:
+
 - Crashes on error?
 - Unclear error messages?
 - No error handling?
@@ -226,16 +250,19 @@ Server status: ✓ Connected
 **Goal**: Verify clean shutdown
 
 **Steps**:
+
 1. Reload VS Code window or close
 2. Check Output panel for shutdown messages
 
 **Expected Output**:
+
 ```
 Disconnecting...
 Disconnected from MCP server
 ```
 
 **Issues to note**:
+
 - Server process orphaned?
 - Cleanup errors?
 - Resources not released?
@@ -247,18 +274,21 @@ Disconnected from MCP server
 **Goal**: Verify server works outside extension
 
 **Steps**:
+
 1. Run `pnpm inspector` from terminal
 2. Open inspector URL in browser
 3. Try listing tools
 4. Try calling `read_todo` tool
 
 **Expected**:
+
 - Inspector connects to server
 - Shows 4 tools
 - Can execute tools
 - See responses
 
 **Issues to note**:
+
 - Inspector connection fails?
 - Tools not visible?
 - Execution errors?
@@ -270,24 +300,28 @@ Disconnected from MCP server
 After testing, answer these questions:
 
 ### Architecture
+
 - [ ] Is STDIO communication approach working well?
 - [ ] Is skill system flexible enough?
 - [ ] Are shared services useful?
 - [ ] Any performance concerns?
 
 ### Usability
+
 - [ ] Are commands discoverable?
 - [ ] Is error handling clear?
 - [ ] Is setup/installation straightforward?
 - [ ] Are logs helpful for debugging?
 
 ### Functionality
+
 - [ ] What features are missing?
 - [ ] What doesn't work as expected?
 - [ ] What should be prioritized?
 - [ ] Any security concerns?
 
 ### Next Steps
+
 - [ ] Continue with Phase 5?
 - [ ] Need architecture changes?
 - [ ] Focus on production readiness?

@@ -115,18 +115,20 @@ All shared services include TypeScript types, singleton patterns, and comprehens
 - **auth-utils** - Authentication utilities (API key, OAuth)
 - **vs-code** - VS Code extension integration utilities
 
-*Note: Phase 3 services are proof of concept implementations with simulated/placeholder logic where production integrations would occur.*
+_Note: Phase 3 services are proof of concept implementations with simulated/placeholder logic where production integrations would occur._
 
 ## VS Code Extension (Phase 4 - PoC, Untested)
 
 Extension integrates MCP server with VS Code via STDIO communication:
 
 **Components:**
+
 - **extension.ts** - Lifecycle management (activate/deactivate)
 - **mcp-client.ts** - STDIO client for server communication
 - **commands.ts** - VS Code command palette integration
 
 **Available Commands:**
+
 1. `List Available Tools` - Show all MCP tools from server
 2. `Call Tool` - Interactive tool execution
 3. `Read TODO` - Read TODO.md via governance skill
@@ -142,6 +144,7 @@ See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for full roadmap.
 **Next Steps:**
 
 **Phase 4.5 - Verification (Current):**
+
 1. Manual extension testing in VS Code
 2. Validate server ↔ extension communication
 3. Test all 5 commands end-to-end
@@ -149,6 +152,7 @@ See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for full roadmap.
 5. Identify gaps/issues
 
 **After Verification:**
+
 - **Phase 5**: Advanced features based on feedback
 - **Production**: Remove PoC placeholders, real integrations
 - **Pivot**: Architecture changes if needed

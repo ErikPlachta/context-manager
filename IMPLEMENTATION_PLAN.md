@@ -247,6 +247,7 @@
 **Tasks**:
 
 1. Manual testing:
+
    - Install extension in VS Code
    - Test activation/deactivation
    - Test all 5 commands
@@ -254,17 +255,20 @@
    - Test error scenarios
 
 2. Server validation:
+
    - Run MCP inspector
    - Test governance skill tools
    - Verify skill loading
    - Check logging output
 
 3. Integration testing:
+
    - Extension → Server → Skills flow
    - Error propagation
    - Connection recovery
 
 4. Documentation review:
+
    - README.md accurate?
    - Commands discoverable?
    - Setup instructions clear?
@@ -278,6 +282,7 @@
 **Deliverable**: Verified PoC + feedback for next steps
 
 **Acceptance**:
+
 - ✅ Extension activates in VS Code
 - ✅ Can list and call tools
 - ✅ Server responds via STDIO

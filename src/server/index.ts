@@ -12,6 +12,8 @@ import { setupShutdownHandlers } from '../shared/stdio/index.js';
 import { SkillRegistry, loadSkills, getAllTools } from './core/index.js';
 import type { MCPServerConfig } from '../types/index.js';
 
+console.error('[Server] Top-level: Imports loaded successfully');
+
 /**
  * Server configuration
  */
@@ -136,43 +138,70 @@ function getSkillRegistry(): SkillRegistry {
  * Main entry point
  */
 async function main() {
-  console.error('Starting Context Manager MCP Server...');
-  console.error(`Version: ${config.version}`);
+  console.error('='.repeat(60));
+  console.error('[Server] === SERVER MAIN START ===');
+  console.error('='.repeat(60));
+  console.error(`[Server] Version: ${config.version}`);
+  console.error(`[Server] Node: ${process.version}`);
+  console.error(`[Server] Platform: ${process.platform}`);
+  console.error(`[Server] CWD: ${process.cwd()}`);
+  console.error(`[Server] Script: ${process.argv[1]}`);
+  console.error(`[Server] NODE_ENV: ${process.env.NODE_ENV || 'not set'}`);
+  console.error('='.repeat(60));
 
   try {
     // Create server
+    console.error('[Server] Step 1: Creating server instance...');
     const server = await createServer();
+    console.error('[Server]   Server instance created');
 
     // Setup STDIO transport
+    console.error('[Server] Step 2: Setting up STDIO transport...');
     const transport = new StdioServerTransport();
+    console.error('[Server]   Transport created');
+
+    console.error('[Server] Step 3: Connecting server to transport...');
     await server.connect(transport);
+    console.error('[Server]   Connected to transport');
 
     // Setup graceful shutdown
+    console.error('[Server] Step 4: Setting up shutdown handlers...');
     setupShutdownHandlers(async () => {
-      console.error('Shutting down server...');
+      console.error('[Server] Shutting down...');
       await server.close();
     });
+    console.error('[Server]   Handlers configured');
 
-    console.error('Server ready and listening on STDIO');
+    console.error('[Server] === SERVER READY ===');
+    console.error('[Server] Listening on STDIO');
 
     // List loaded tools
     const skills = skillRegistry.getAll();
+    console.error(`[Server] Loaded ${skills.length} skill(s):`);
     for (const skill of skills) {
       const toolNames = skill.tools.map(t => t.definition.name).join(', ');
-      console.error(`  [${skill.id}]: ${toolNames}`);
+      console.error(`[Server]   - ${skill.id}: ${toolNames}`);
     }
+    console.error('='.repeat(60));
   } catch (error) {
-    console.error('Failed to start server:', error);
+    console.error('[Server] === SERVER FAILED ===');
+    console.error('[Server] Error:', error);
+    if (error instanceof Error) {
+      console.error('[Server] Message:', error.message);
+      console.error('[Server] Stack:', error.stack);
+    }
     process.exit(1);
   }
 }
 
-// Run if executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
-  main().catch((error) => {
-    console.error('Fatal error:', error);
-    process.exit(1);
-  });
-}
+// Run main when module is loaded (this is always the entry point)
+console.error('[Server] Module loaded, calling main()...');
+main().catch((error) => {
+  console.error('[Server] Fatal error in main():', error);
+  if (error instanceof Error) {
+    console.error('[Server] Stack:', error.stack);
+  }
+  process.exit(1);
+});
 
 export { createServer, getSkillRegistry, config };

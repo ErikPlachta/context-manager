@@ -4,17 +4,21 @@
  * Manages STDIO connection to MCP server process.
  */
 
-import { spawn, ChildProcess } from 'child_process';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import type { StdioServerParameters } from '@modelcontextprotocol/sdk/client/stdio.js';
 
 export interface MCPClientConfig {
   /** Path to server executable */
   serverPath: string;
   /** Server arguments */
   serverArgs?: string[];
-  /** Environment variables */
+  /** Environment variables to ADD to defaults (not replace) */
   env?: Record<string, string>;
+  /** Callback for server stderr output */
+  onStderr?: (data: string) => void;
+  /** Callback for client log output */
+  onLog?: (msg: string) => void;
 }
 
 export interface MCPToolCall {
@@ -28,7 +32,6 @@ export interface MCPToolCall {
 export class MCPClient {
   private client: Client | null = null;
   private transport: StdioClientTransport | null = null;
-  private serverProcess: ChildProcess | null = null;
   private config: MCPClientConfig;
   private connected = false;
 
@@ -40,47 +43,53 @@ export class MCPClient {
    * Start server and connect
    */
   async connect(): Promise<void> {
+    const log = (msg: string) => {
+      console.log(msg);
+      this.config.onLog?.(msg);
+    };
+
+    log('[MCP Client] === CONNECT START ===');
+
     if (this.connected) {
-      console.log('[MCP Client] Already connected');
+      log('[MCP Client] Already connected, returning');
       return;
     }
 
     try {
-      console.log('[MCP Client] Starting server:', this.config.serverPath);
+      const args = this.config.serverArgs || [];
+      log('[MCP Client] Step 4.1: Creating transport');
+      log(`[MCP Client]   Command: ${this.config.serverPath}`);
+      log(`[MCP Client]   Args: ${JSON.stringify(args)}`);
+      log(`[MCP Client]   Env overrides: ${JSON.stringify(this.config.env || {})}`);
 
-      // Spawn server process
-      const env = this.config.env
-        ? { ...process.env, ...this.config.env }
-        : process.env;
-
-      this.serverProcess = spawn(this.config.serverPath, this.config.serverArgs || [], {
-        env: env as NodeJS.ProcessEnv,
-        stdio: ['pipe', 'pipe', 'pipe']
-      });
-
-      // Handle process errors
-      this.serverProcess.on('error', (error) => {
-        console.error('[MCP Client] Server process error:', error);
-      });
-
-      this.serverProcess.on('exit', (code) => {
-        console.log('[MCP Client] Server process exited with code:', code);
-        this.connected = false;
-      });
-
-      // Log stderr for debugging
-      this.serverProcess.stderr?.on('data', (data) => {
-        console.error('[MCP Server]', data.toString());
-      });
-
-      // Create STDIO transport
-      this.transport = new StdioClientTransport({
+      // Build transport params matching SDK's approach
+      // SDK uses getDefaultEnvironment() + custom env, NOT full process.env
+      const transportParams: StdioServerParameters = {
         command: this.config.serverPath,
-        args: this.config.serverArgs || [],
-        env: env as Record<string, string>
-      });
+        args: args,
+        stderr: this.config.onStderr ? 'pipe' : 'inherit'
+      };
+
+      // Only add env if we have overrides (SDK merges with defaults internally)
+      if (this.config.env) {
+        transportParams.env = this.config.env;
+      }
+
+      log('[MCP Client] Step 4.2: Instantiating StdioClientTransport');
+      this.transport = new StdioClientTransport(transportParams);
+      log('[MCP Client]   Transport instantiated (SDK handles env defaults)');
+
+      // Use SDK's stderr PassThrough stream (available immediately)
+      if (this.config.onStderr && this.transport.stderr) {
+        log('[MCP Client] Step 4.3: Attaching to stderr stream');
+        this.transport.stderr.on('data', (data: Buffer) => {
+          this.config.onStderr?.(data.toString());
+        });
+        log('[MCP Client]   Stderr listener attached');
+      }
 
       // Create MCP client
+      log('[MCP Client] Step 4.4: Creating Client instance');
       this.client = new Client(
         {
           name: 'context-manager-vscode',
@@ -90,14 +99,21 @@ export class MCPClient {
           capabilities: {}
         }
       );
+      log('[MCP Client]   Client instance created');
 
-      // Connect to server
+      log('[MCP Client] Step 4.5: Calling client.connect() (spawns server)');
       await this.client.connect(this.transport);
+      log('[MCP Client]   client.connect() completed');
 
       this.connected = true;
-      console.log('[MCP Client] Connected to server');
+      log('[MCP Client] === CONNECT SUCCESS ===');
     } catch (error) {
-      console.error('[MCP Client] Failed to connect:', error);
+      log('[MCP Client] === CONNECT FAILED ===');
+      log(`[MCP Client] Error: ${error}`);
+      if (error instanceof Error) {
+        log(`[MCP Client] Message: ${error.message}`);
+        log(`[MCP Client] Stack: ${error.stack}`);
+      }
       throw error;
     }
   }
@@ -119,16 +135,10 @@ export class MCPClient {
         this.client = null;
       }
 
-      // Close transport
+      // Close transport (also terminates server process)
       if (this.transport) {
         await this.transport.close();
         this.transport = null;
-      }
-
-      // Kill server process
-      if (this.serverProcess) {
-        this.serverProcess.kill();
-        this.serverProcess = null;
       }
 
       this.connected = false;

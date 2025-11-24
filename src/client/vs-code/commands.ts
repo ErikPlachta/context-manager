@@ -149,6 +149,53 @@ export function registerCommands(
     })
   );
 
+  // Read Context
+  commands.push(
+    vscode.commands.registerCommand('context-manager.readContext', async () => {
+      try {
+        const result = await client.callTool({
+          name: 'read_context',
+          arguments: {}
+        });
+
+        outputChannel.appendLine('CONTEXT-SESSION.md contents:');
+        outputChannel.appendLine(JSON.stringify(result, null, 2));
+        outputChannel.show();
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        vscode.window.showErrorMessage(`Failed to read context: ${errorMessage}`);
+      }
+    })
+  );
+
+  // Update Context
+  commands.push(
+    vscode.commands.registerCommand('context-manager.updateContext', async () => {
+      try {
+        const content = await vscode.window.showInputBox({
+          prompt: 'Enter context content',
+          placeHolder: 'Current session context...'
+        });
+
+        if (!content) {
+          return;
+        }
+
+        const result = await client.callTool({
+          name: 'update_context',
+          arguments: { content }
+        });
+
+        outputChannel.appendLine('Context updated:');
+        outputChannel.appendLine(JSON.stringify(result, null, 2));
+        vscode.window.showInformationMessage('Context updated successfully');
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        vscode.window.showErrorMessage(`Failed to update context: ${errorMessage}`);
+      }
+    })
+  );
+
   // Show server status
   commands.push(
     vscode.commands.registerCommand('context-manager.status', async () => {

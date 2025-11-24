@@ -1,0 +1,63 @@
+============================================================
+Context Manager Extension Activating
+============================================================
+Step 1: Getting server path...
+  Extension mode: Production
+  Extension path: c:\Users\plach\.vscode\extensions\context-manager.context-manager-0.0.1
+  Server script: c:\Users\plach\.vscode\extensions\context-manager.context-manager-0.0.1\dist\server\server\index.js
+Step 2: Verifying server file...
+  File exists: true
+Step 3: Creating MCP client...
+  Command: node
+  Args: ["c:\\Users\\plach\\.vscode\\extensions\\context-manager.context-manager-0.0.1\\dist\\server\\server\\index.js"]
+  Client created successfully
+Step 4: Connecting to MCP server...
+[MCP Client] === CONNECT START ===
+[MCP Client] Step 4.1: Creating transport
+[MCP Client]   Command: node
+[MCP Client]   Args: ["c:\\Users\\plach\\.vscode\\extensions\\context-manager.context-manager-0.0.1\\dist\\server\\server\\index.js"]
+[MCP Client]   Env overrides: {"NODE_ENV":"production"}
+[MCP Client] Step 4.2: Instantiating StdioClientTransport
+[MCP Client]   Transport instantiated (SDK handles env defaults)
+[MCP Client] Step 4.3: Attaching to stderr stream
+[MCP Client]   Stderr listener attached
+[MCP Client] Step 4.4: Creating Client instance
+[MCP Client]   Client instance created
+[MCP Client] Step 4.5: Calling client.connect() (spawns server)
+  [Server] [Server] Top-level: Imports loaded successfully
+  [Server] [Server] Module loaded, calling main()...
+  [Server] ============================================================
+  [Server] [Server] === SERVER MAIN START ===
+  [Server] ============================================================
+  [Server] [Server] Version: 0.0.1
+  [Server] [Server] Node: v22.17.0
+  [Server] [Server] Platform: win32
+  [Server] [Server] CWD: C:\Users\plach\AppData\Local\Programs\Microsoft VS Code
+  [Server] [Server] Script: c:\Users\plach\.vscode\extensions\context-manager.context-manager-0.0.1\dist\server\server\index.js
+  [Server] [Server] NODE_ENV: production
+  [Server] ============================================================
+  [Server] [Server] Step 1: Creating server instance...
+  [Server] [Server] Loading skills...
+  [Server] [Loader] Skills directory: c:\Users\plach\.vscode\extensions\context-manager.context-manager-0.0.1\dist\server\server\skills
+  [Server] [Loader] __dirname: c:\Users\plach\.vscode\extensions\context-manager.context-manager-0.0.1\dist\server\server\core
+  [Server] [Loader] Found 1 entries in skills directory
+  [Server] [Loader] Loading skill from: c:\Users\plach\.vscode\extensions\context-manager.context-manager-0.0.1\dist\server\server\skills\mcp-governance\index.js
+  [Server] [Loader] Loaded skill: mcp-governance v1.0.0
+  [Server] [Registry] Registered skill: mcp-governance (4 tools)
+  [Server] [Server] Loaded 1 skill(s) with 4 tool(s)
+  [Server] [Server]   Server instance created
+  [Server] [Server] Step 2: Setting up STDIO transport...
+  [Server] [Server]   Transport created
+  [Server] [Server] Step 3: Connecting server to transport...
+  [Server] [Server]   Connected to transport
+  [Server] [Server] Step 4: Setting up shutdown handlers...
+  [Server] [Server]   Handlers configured
+  [Server] [Server] === SERVER READY ===
+  [Server] [Server] Listening on STDIO
+  [Server] [Server] Loaded 1 skill(s):
+  [Server] [Server]   - mcp-governance: read_todo, update_todo, read_context, update_context
+  [Server] ============================================================
+[MCP Client]   client.connect() completed
+[MCP Client] === CONNECT SUCCESS ===
+  Connected successfully!
+Commands registered
