@@ -6,7 +6,8 @@ import { join } from 'path';
 import { safeReadFile, safeWriteFile } from '../../../shared/file-system-tool/index.js';
 import type { ReadTodoInput, UpdateTodoInput, ReadContextInput, UpdateContextInput } from './tools.js';
 
-const PROJECT_ROOT = process.cwd();
+// Use WORKSPACE_DIR env var if available, fallback to cwd
+const PROJECT_ROOT = process.env.WORKSPACE_DIR || process.cwd();
 
 /**
  * Read TODO file

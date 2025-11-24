@@ -2,7 +2,7 @@
   "name": "context-manager",
   "displayName": "Context Manager",
   "description": "Skill-driven MCP Server for intelligent context management",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "context-manager",
   "repository": {
     "type": "git",
@@ -11,12 +11,8 @@
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onStartupFinished"
-  ],
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
   "main": "./dist/client/vs-code/extension.js",
   "contributes": {
     "commands": [
@@ -48,6 +44,16 @@
       {
         "command": "context-manager.updateContext",
         "title": "Update Context",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.createTodo",
+        "title": "Create TODO File",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.createContext",
+        "title": "Create Context File",
         "category": "Context Manager"
       },
       {

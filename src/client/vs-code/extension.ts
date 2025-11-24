@@ -49,6 +49,10 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       throw new Error(`Server script not found at: ${serverPath}`);
     }
 
+    // Get workspace directory
+    const workspaceDir = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
+    log(`Step 2.5: Workspace directory: ${workspaceDir}`);
+
     // Create MCP client
     log('Step 3: Creating MCP client...');
     log(`  Command: node`);
@@ -57,7 +61,10 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     mcpClient = new MCPClient({
       serverPath: 'node',
       serverArgs: [serverPath],
-      env: { NODE_ENV: 'production' },
+      env: {
+        NODE_ENV: 'production',
+        WORKSPACE_DIR: workspaceDir
+      },
       onStderr: (data) => {
         data.split('\n').forEach(line => {
           if (line.trim()) log(`  [Server] ${line}`);
@@ -79,7 +86,10 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         id: MCP_SERVER_ID,
         command: 'node',
         args: [serverPath],
-        env: { NODE_ENV: 'production' }
+        env: {
+          NODE_ENV: 'production',
+          WORKSPACE_DIR: workspaceDir
+        }
       });
       log(`  Registered in: ${mcpConfigPath}`);
     } catch (error) {

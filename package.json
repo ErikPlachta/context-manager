@@ -1,6 +1,6 @@
 {
   "name": "context-manager",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "MCP Server with VS Code Extension - Skill-driven context management",
   "private": true,
   "type": "module",
