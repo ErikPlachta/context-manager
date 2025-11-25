@@ -1,0 +1,76 @@
+{
+  "id": "companyResources",
+  "name": "Company Resources",
+  "description": "Knowledge base entries, playbooks, and runbooks.",
+  "aliases": ["resources", "knowledge base"],
+  "config": {
+    "purpose": "Provide reusable assets for onboarding and operations.",
+    "primaryKeys": ["id"],
+    "updateCadence": "Team-dependent; at least quarterly reviews.",
+    "access": "Published to the entire company by default.",
+    "requirements": {
+      "requiredRecordFields": ["id", "name", "departmentId", "type"],
+      "requiredRelationshipFields": [
+        "departmentId",
+        "linkedPolicyIds",
+        "applicationIds"
+      ],
+      "notes": [
+        "<Resource> should reference owning policies and supported applications."
+      ]
+    },
+    "orchestration": {
+      "summary": "<Resource> records connect playbooks and guides to the departments, applications, and policies they support.",
+      "signals": [
+        "Requests mention runbooks, onboarding guides, or internal knowledge base assets.",
+        "The user needs supporting material for an application, policy, or department.",
+        "The task is to identify who owns or maintains a specific resource."
+      ],
+      "escalateWhen": [
+        "A requested resource is missing from the dataset or lacks ownership details.",
+        "The user needs the full document contents rather than metadata or summaries."
+      ],
+      "agents": {
+        "relevantDataManager": {
+          "focus": "Outline required metadata and relationship expectations for operational resources.",
+          "signals": [
+            "We must confirm required fields when adding or auditing a resource entry.",
+            "We need to understand how resources link to policies or applications before querying records.",
+            "Contributors are looking for schemas, examples, or update cadences for documentation assets."
+          ],
+          "promptStarters": [
+            "Relevant data manager, list the required metadata for a resource record.",
+            "Relevant data manager, summarize the policies and applications linked to `<resource>`.",
+            "Relevant data manager, walk me through the folder structure for the resources dataset."
+          ]
+        },
+        "databaseAgent": {
+          "focus": "Filter resource records by department, type, or linked systems to answer operational requests.",
+          "signals": [
+            "We need a list of resources supporting a particular application or department.",
+            "Support teams are checking for resources without policy coverage or owners.",
+            "We are assembling resource inventories by type (runbooks, training, FAQs)."
+          ],
+          "promptStarters": [
+            "Database agent, list onboarding guides that support `<application>`.",
+            "Database agent, find resources owned by `<department>` without linked policies.",
+            "Database agent, show all runbooks associated with `<policy>` and their maintainers."
+          ]
+        },
+        "dataAgent": {
+          "focus": "Produce curated playbook collections and explain how resources support business outcomes.",
+          "signals": [
+            "We are preparing onboarding or enablement plans that rely on multiple resources.",
+            "Incident responders need a narrative tying resources to applications and policies.",
+            "Leaders are evaluating documentation coverage or knowledge gaps."
+          ],
+          "promptStarters": [
+            "Data agent, assemble a training kit for `<team>` using relevant resources, policies, and applications.",
+            "Data agent, explain how resources support `<application>` during an incident response scenario.",
+            "Data agent, highlight documentation gaps for `<department>` based on available resources."
+          ]
+        }
+      }
+    }
+  }
+}

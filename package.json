@@ -1,15 +1,51 @@
 {
   "name": "context-manager",
-  "version": "0.0.0",
+  "version": "0.0.3",
+  "description": "MCP Server with VS Code Extension - Skill-driven context management",
   "private": true,
-  "description": "Workspace wrapper for the Context Manager CLI tooling.",
-  "workspaces": [
-    "scripts/context-manager"
-  ],
+  "type": "module",
+  "packageManager": "pnpm@9.14.2",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  },
   "scripts": {
-    "build:cli": "npm --workspace scripts/context-manager run build",
-    "clean:cli": "npm --workspace scripts/context-manager run clean",
-    "lint:cli": "npm --workspace scripts/context-manager run lint",
-    "cli": "npm run build:cli --silent && node scripts/context-manager/dist/cli.js"
+    "build": "tsx scripts/build.ts",
+    "build:server": "tsx scripts/build-server.ts",
+    "build:extension": "tsx scripts/build-extension.ts",
+    "package": "tsx scripts/package-extension.ts",
+    "clean": "tsx scripts/clean.ts",
+    "test": "tsx scripts/test.ts",
+    "test:unit": "vitest run",
+    "test:eval": "tsx scripts/test-eval.ts",
+    "test:watch": "vitest watch",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "typecheck": "tsc --noEmit",
+    "dev": "tsx scripts/dev-server.ts",
+    "inspector": "tsx scripts/inspector.ts",
+    "prepublish": "pnpm clean && pnpm build && pnpm test"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "@types/vscode": "^1.106.1",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
+    "@vscode/vsce": "^3.7.1",
+    "eslint": "^9.15.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^1.0.5",
+    "@ai-sdk/google": "^1.0.8",
+    "@ai-sdk/openai": "^1.0.8",
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "@modelcontextprotocol/server-memory": "^2025.9.25",
+    "@modelcontextprotocol/server-sequential-thinking": "^2025.7.1",
+    "ai": "^4.0.35",
+    "evalite": "^0.19.0",
+    "zod": "^3.23.8"
   }
 }

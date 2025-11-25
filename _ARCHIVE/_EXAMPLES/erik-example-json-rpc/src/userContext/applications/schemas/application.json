@@ -1,0 +1,17 @@
+{
+  "name": "Application",
+  "description": "System metadata with ownership and criticality.",
+  "schema": {
+    "type": "object",
+    "required": ["id", "name", "ownerDepartmentId"],
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string" },
+      "type": { "type": "string" },
+      "ownerDepartmentId": { "type": "string" },
+      "criticality": { "enum": ["low", "medium", "high"] },
+      "relatedPolicyIds": { "type": "array", "items": { "type": "string" } },
+      "resourceIds": { "type": "array", "items": { "type": "string" } }
+    }
+  }
+}

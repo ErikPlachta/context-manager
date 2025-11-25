@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm build:*)",
+      "Bash(pnpm typecheck:*)",
+      "Bash(pnpm build:server:*)",
+      "Bash(pnpm test:unit:*)",
+      "Bash(timeout 2 node:*)",
+      "Bash(pnpm clean:*)",
+      "Bash(timeout 3 node:*)",
+      "Bash(mkdir:*)",
+      "Bash(pnpm test:eval:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm build:extension:*)",
+      "Bash(pnpm package:*)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash C:/repo/context-manager/.claude/command/statusline.sh",
+    "padding": 0
+  }
+}

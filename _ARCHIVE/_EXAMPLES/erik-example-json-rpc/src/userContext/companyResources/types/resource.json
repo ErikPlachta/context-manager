@@ -1,0 +1,22 @@
+{
+  "name": "Resource",
+  "description": "TypedDict for knowledge resources.",
+  "schema": {
+    "kind": "typedDict",
+    "fields": [
+      { "name": "id", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "name", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "type", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "description", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "departmentId", "type": { "kind": "primitive", "name": "str" } },
+      {
+        "name": "linkedPolicyIds",
+        "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } }
+      },
+      {
+        "name": "applicationIds",
+        "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } }
+      }
+    ]
+  }
+}

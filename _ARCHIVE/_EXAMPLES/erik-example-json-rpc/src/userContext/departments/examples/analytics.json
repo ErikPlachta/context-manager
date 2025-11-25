@@ -1,0 +1,13 @@
+{
+  "description": "Analytics department definition used in demos.",
+  "sample": {
+    "id": "dept-analytics",
+    "name": "Insight & Analytics",
+    "description": "Delivers customer and product insights.",
+    "leadId": "person-005",
+    "parentDepartmentId": "dept-operations",
+    "applicationIds": ["app-aurora", "app-atlas"],
+    "policyIds": ["policy-data-handling"],
+    "resourceIds": ["resource-analytics-playbook"]
+  }
+}

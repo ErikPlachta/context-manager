@@ -1,0 +1,29 @@
+[
+  {
+    "key": "owner",
+    "name": "owning department",
+    "description": "Each application has an accountable department.",
+    "targetCategory": "departments",
+    "sourceField": "ownerDepartmentId",
+    "targetField": "id",
+    "cardinality": "one"
+  },
+  {
+    "key": "policies",
+    "name": "policy coverage",
+    "description": "Security and compliance policies governing the application.",
+    "targetCategory": "companyPolicies",
+    "sourceField": "relatedPolicyIds",
+    "targetField": "id",
+    "cardinality": "many"
+  },
+  {
+    "key": "resources",
+    "name": "dependent resources",
+    "description": "Runbooks and assets supporting the system.",
+    "targetCategory": "companyResources",
+    "sourceField": "resourceIds",
+    "targetField": "id",
+    "cardinality": "many"
+  }
+]

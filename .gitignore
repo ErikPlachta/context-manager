@@ -1,4 +1,37 @@
+# Dependencies
 node_modules/
+pnpm-lock.yaml
+
+# Build outputs
 dist/
-scripts/context-manager/node_modules/
-scripts/context-manager/dist/
+*.tsbuildinfo
+*.vsix
+
+# Tests
+coverage/
+.vitest/
+Test/
+test/
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+tmp/
+temp/
+*.tmp

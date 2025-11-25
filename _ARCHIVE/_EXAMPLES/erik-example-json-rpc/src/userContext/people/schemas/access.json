@@ -1,0 +1,12 @@
+{
+  "name": "AccessProfile",
+  "description": "Access scopes and permissions assigned to people.",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "personId": { "type": "string" },
+      "applicationId": { "type": "string" },
+      "roles": { "type": "array", "items": { "type": "string" } }
+    }
+  }
+}

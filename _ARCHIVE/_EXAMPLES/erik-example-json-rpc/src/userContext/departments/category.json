@@ -1,0 +1,78 @@
+{
+  "id": "departments",
+  "name": "Departments",
+  "description": "Organizational units, their missions, and leadership hierarchy.",
+  "aliases": ["dept", "org units", "teams"],
+  "config": {
+    "purpose": "Define the company's structure and accountability chains.",
+    "primaryKeys": ["id"],
+    "updateCadence": "Quarterly structure review with ad-hoc updates for reorganizations.",
+    "access": "All employees can view. Updates restricted to Strategy & Operations.",
+    "requirements": {
+      "requiredRecordFields": ["id", "name", "leadId", "description"],
+      "requiredRelationshipFields": [
+        "leadId",
+        "applicationIds",
+        "policyIds",
+        "resourceIds"
+      ],
+      "notes": [
+        "Records must surface accountable leaders.",
+        "Applications, policies, and resources should be linked for each department."
+      ]
+    },
+    "orchestration": {
+      "summary": "<Department> data anchors ownership, leadership, and cross-functional responsibilities.",
+      "signals": [
+        "Requests mention a team, <department>, or organizational responsibility.",
+        "The user needs to know which <department> owns an application, policy, or resource.",
+        "The task involves understanding leadership hierarchy or <department> missions."
+      ],
+      "escalateWhen": [
+        "A <department> is referenced that is not represented in the current dataset.",
+        "The question requires real-time staffing, budgeting, or HR data beyond the records."
+      ],
+      "agents": {
+        "relevantDataManager": {
+          "focus": "Clarify required metadata, leadership expectations, and connected assets for each <department>.",
+          "signals": [
+            "We must collect fields needed to create or update a <department> record.",
+            "The orchestrator needs to understand how <department> relate to applications, policies, or resources before querying.",
+            "Contributors are verifying the folder layout, schemas, or examples for organizational data."
+          ],
+          "promptStarters": [
+            "Relevant data manager, list the required metadata for a <department> entry.",
+            "Relevant data manager, describe the applications, policies, and resources linked to `<department>`.",
+            "Relevant data manager, outline the folder structure for the <department> dataset."
+          ]
+        },
+        "databaseAgent": {
+          "focus": "Answer structured questions about <department> ownership, leaders, and connected assets.",
+          "signals": [
+            "We are filtering <department> by the applications or policies they own.",
+            "Leaders need to see which resources belong to a <department> and who maintains them.",
+            "We are validating that each application or policy has an accountable <department>."
+          ],
+          "promptStarters": [
+            "Database agent, list <department> that own `<application>` and show their leaders.",
+            "Database agent, retrieve <department> lacking linked resources.",
+            "Database agent, show the policies overseen by `<department>` with review cadences."
+          ]
+        },
+        "dataAgent": {
+          "focus": "Synthesize organizational insights, collaboration maps, and onboarding briefs for teams.",
+          "signals": [
+            "Executives need a narrative of how departments collaborate on a program or system.",
+            "We are preparing onboarding guidance for a role joining a department.",
+            "The orchestrator must explain cross-functional ownership spanning multiple categories."
+          ],
+          "promptStarters": [
+            "Data agent, summarize how `<department>` collaborates with other teams to support `<initiative>`.",
+            "Data agent, create an onboarding brief for `<role>` joining `<department>`.",
+            "Data agent, map departmental responsibilities for `<business outcome>` across applications and policies."
+          ]
+        }
+      }
+    }
+  }
+}

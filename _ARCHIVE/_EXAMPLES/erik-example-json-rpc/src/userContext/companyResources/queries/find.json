@@ -1,0 +1,11 @@
+{
+  "name": "Find analytics resources",
+  "description": "Search knowledge base for analytics content.",
+  "samplePayload": {
+    "endpoint": "https://intranet.example.com/api/resources",
+    "method": "POST",
+    "body": {
+      "query": "analytics"
+    }
+  }
+}

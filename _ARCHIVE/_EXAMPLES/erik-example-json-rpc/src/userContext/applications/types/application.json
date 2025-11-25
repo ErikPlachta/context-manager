@@ -1,0 +1,22 @@
+{
+  "name": "Application",
+  "description": "TypedDict for application metadata.",
+  "schema": {
+    "kind": "typedDict",
+    "fields": [
+      { "name": "id", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "name", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "type", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "ownerDepartmentId", "type": { "kind": "primitive", "name": "str" } },
+      { "name": "criticality", "type": { "kind": "enum", "values": ["low", "medium", "high"] } },
+      {
+        "name": "relatedPolicyIds",
+        "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } }
+      },
+      {
+        "name": "resourceIds",
+        "type": { "kind": "list", "element": { "kind": "primitive", "name": "str" } }
+      }
+    ]
+  }
+}

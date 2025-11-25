@@ -1,0 +1,17 @@
+{
+  "name": "Resource",
+  "description": "Reusable knowledge artifact.",
+  "schema": {
+    "type": "object",
+    "required": ["id", "name", "departmentId"],
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string" },
+      "description": { "type": "string" },
+      "type": { "type": "string" },
+      "departmentId": { "type": "string" },
+      "linkedPolicyIds": { "type": "array", "items": { "type": "string" } },
+      "applicationIds": { "type": "array", "items": { "type": "string" } }
+    }
+  }
+}

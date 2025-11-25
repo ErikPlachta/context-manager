@@ -1,0 +1,8 @@
+{
+  "name": "List departments",
+  "description": "Fetch department metadata from the HR master data API.",
+  "samplePayload": {
+    "endpoint": "https://mdm.example.com/departments",
+    "method": "GET"
+  }
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "person001",
+    "name": "Alex Johnson",
+    "email": "alex.johnson@company.com",
+    "departmentId": "engineering",
+    "role": "Senior Software Engineer",
+    "skills": ["TypeScript", "React", "Node.js", "System Architecture"],
+    "applicationIds": ["app001", "app003"],
+    "resourceIds": ["res001", "res004"],
+    "policyAcks": ["security-policy", "code-review-policy"],
+    "lastActive": "2024-01-15",
+    "location": "Remote"
+  },
+  {
+    "id": "person002",
+    "name": "Sam Chen",
+    "email": "sam.chen@company.com",
+    "departmentId": "marketing",
+    "role": "Marketing Manager",
+    "skills": ["Campaign Management", "Analytics", "Content Strategy"],
+    "applicationIds": ["app002"],
+    "resourceIds": ["res002", "res003"],
+    "policyAcks": ["marketing-policy", "data-privacy-policy"],
+    "lastActive": "2024-01-16",
+    "location": "Office"
+  },
+  {
+    "id": "person003",
+    "name": "Jordan Smith",
+    "email": "jordan.smith@company.com",
+    "departmentId": "engineering",
+    "role": "DevOps Engineer",
+    "skills": ["Docker", "Kubernetes", "CI/CD", "AWS", "Monitoring"],
+    "applicationIds": ["app001", "app002", "app003"],
+    "resourceIds": ["res001", "res005"],
+    "policyAcks": ["security-policy", "infrastructure-policy"],
+    "lastActive": "2024-01-16",
+    "location": "Remote"
+  }
+]

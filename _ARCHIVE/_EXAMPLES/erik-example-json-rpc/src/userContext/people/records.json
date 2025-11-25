@@ -1,0 +1,93 @@
+[
+  {
+    "id": "person-001",
+    "name": "Elliot Harper",
+    "email": "elliot.harper@example.com",
+    "role": "Analytics Engineer",
+    "departmentId": "dept-analytics",
+    "managerId": "person-005",
+    "location": "Remote - UK",
+    "skills": ["python", "dbt", "sql", "dagster"],
+    "applicationIds": ["app-aurora", "app-atlas"],
+    "policyAcks": ["policy-data-handling"],
+    "resourceIds": ["resource-analytics-playbook"]
+  },
+  {
+    "id": "person-002",
+    "name": "Priya Raman",
+    "email": "priya.raman@example.com",
+    "role": "Analytics Manager",
+    "departmentId": "dept-analytics",
+    "managerId": "person-005",
+    "location": "Hybrid - NYC",
+    "skills": ["analytics strategy", "storytelling"],
+    "applicationIds": ["app-aurora"],
+    "policyAcks": ["policy-data-handling", "policy-remote-work"],
+    "resourceIds": ["resource-analytics-playbook"]
+  },
+  {
+    "id": "person-003",
+    "name": "Marcus Chen",
+    "email": "marcus.chen@example.com",
+    "role": "Machine Learning Engineer",
+    "departmentId": "dept-analytics",
+    "managerId": "person-002",
+    "location": "Remote - Singapore",
+    "skills": ["mlops", "python", "kubernetes"],
+    "applicationIds": ["app-atlas"],
+    "policyAcks": ["policy-data-handling"],
+    "resourceIds": ["resource-ml-handbook"]
+  },
+  {
+    "id": "person-004",
+    "name": "Imani Jones",
+    "email": "imani.jones@example.com",
+    "role": "Analytics Product Manager",
+    "departmentId": "dept-analytics",
+    "managerId": "person-005",
+    "location": "Hybrid - Toronto",
+    "skills": ["stakeholder management", "roadmapping"],
+    "applicationIds": ["app-aurora"],
+    "policyAcks": ["policy-remote-work"],
+    "resourceIds": ["resource-analytics-playbook", "resource-operating-model"]
+  },
+  {
+    "id": "person-005",
+    "name": "Amina Solis",
+    "email": "amina.solis@example.com",
+    "role": "Director of Analytics",
+    "departmentId": "dept-analytics",
+    "managerId": "person-007",
+    "location": "Hybrid - NYC",
+    "skills": ["leadership", "strategy", "analytics"],
+    "applicationIds": ["app-aurora", "app-atlas"],
+    "policyAcks": ["policy-data-handling", "policy-remote-work"],
+    "resourceIds": ["resource-analytics-playbook", "resource-ml-handbook"]
+  },
+  {
+    "id": "person-006",
+    "name": "Noah Patel",
+    "email": "noah.patel@example.com",
+    "role": "Head of Platform",
+    "departmentId": "dept-platform",
+    "managerId": "person-007",
+    "location": "Hybrid - Austin",
+    "skills": ["platform strategy", "site reliability"],
+    "applicationIds": ["app-foundry"],
+    "policyAcks": ["policy-platform-standards"],
+    "resourceIds": ["resource-platform-runbook"]
+  },
+  {
+    "id": "person-007",
+    "name": "Camille Laurent",
+    "email": "camille.laurent@example.com",
+    "role": "VP Strategy & Operations",
+    "departmentId": "dept-operations",
+    "managerId": null,
+    "location": "Hybrid - NYC",
+    "skills": ["operations", "finance", "governance"],
+    "applicationIds": ["app-oracle"],
+    "policyAcks": ["policy-remote-work"],
+    "resourceIds": ["resource-operating-model", "resource-data-handbook"]
+  }
+]

@@ -1,0 +1,88 @@
+{
+  "id": "applications",
+  "name": "Applications",
+  "description": "Internal platforms, SaaS tooling, and business systems.",
+  "aliases": [
+    "apps",
+    "software",
+    "systems",
+    "platforms",
+    "frameworks",
+    "solutions"
+  ],
+  "config": {
+    "purpose": "Map business capabilities to the systems that deliver them.",
+    "primaryKeys": ["id"],
+    "updateCadence": "Change management board weekly updates.",
+    "access": "Engineering and IT stakeholders.",
+    "requirements": {
+      "requiredRecordFields": [
+        "id",
+        "name",
+        "ownerDepartmentId",
+        "criticality"
+      ],
+      "requiredRelationshipFields": [
+        "ownerDepartmentId",
+        "relatedPolicyIds",
+        "resourceIds"
+      ],
+      "notes": [
+        "<Application> must declare an accountable department and policy coverage."
+      ]
+    },
+    "orchestration": {
+      "summary": "<Application> data captures ownership, criticality, and dependencies so orchestration can steer system lifecycle decisions.",
+      "signals": [
+        "Requests mention specific internal platforms, SaaS tools, or business systems.",
+        "The user needs to confirm which department owns or governs an application.",
+        "The question asks for dependencies between applications, policies, or operational resources."
+      ],
+      "escalateWhen": [
+        "The request references an application missing from records or without ownership details.",
+        "The user needs live operational metrics or change history beyond the static dataset."
+      ],
+      "agents": {
+        "relevantDataManager": {
+          "focus": "Expose required metadata, dependencies, and governance expectations for applications.",
+          "signals": [
+            "The orchestrator needs required fields to onboard or audit an application entry.",
+            "The workflow must understand which policies or resources relate to an application.",
+            "The caller needs the folder structure to supply updated schemas or examples."
+          ],
+          "promptStarters": [
+            "Relevant data manager, list the required metadata and relationships for `<application>`.",
+            "Relevant data manager, summarize the policies and resources linked to `<application>`.",
+            "Relevant data manager, describe the folder blueprint for the applications dataset."
+          ]
+        },
+        "databaseAgent": {
+          "focus": "Run targeted queries across <application> records for ownership, criticality, and compliance coverage.",
+          "signals": [
+            "We need a list of <application> filtered by department, tier, or compliance posture.",
+            "We must cross-reference policies or resources for multiple <application> at once.",
+            "We are validating referential integrity between <application> and other categories."
+          ],
+          "promptStarters": [
+            "Database agent, list all <application> owned by `<department>` with their criticality levels.",
+            "Database agent, show <application> missing policies covering `<standard>`.",
+            "Database agent, cross-reference `<application>` with its supporting resources."
+          ]
+        },
+        "dataAgent": {
+          "focus": "Provide narratives about how <application> support the business and highlight risks or opportunities.",
+          "signals": [
+            "Stakeholders need an onboarding brief about <application> usage across departments.",
+            "Leaders want an explanation of how <application> align with policies and resources.",
+            "The orchestrator must plan multi-step investigations that combine <application> data with other categories."
+          ],
+          "promptStarters": [
+            "Data agent, craft an overview of how `<department>` relies on `<application>`.",
+            "Data agent, highlight risks for `<application>` based on its criticality and policy coverage.",
+            "Data agent, propose a review plan for <application> supporting `<business process>`."
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "key": "owner",
+    "name": "owning department",
+    "description": "Department accountable for the policy.",
+    "targetCategory": "departments",
+    "sourceField": "ownerDepartmentId",
+    "targetField": "id",
+    "cardinality": "one"
+  },
+  {
+    "key": "applications",
+    "name": "referenced applications",
+    "description": "Systems that enforce or rely on the policy.",
+    "targetCategory": "applications",
+    "sourceField": "applicationIds",
+    "targetField": "id",
+    "cardinality": "many"
+  },
+  {
+    "key": "resources",
+    "name": "linked resources",
+    "description": "Training or documentation supporting the policy.",
+    "targetCategory": "companyResources",
+    "sourceField": "relatedResourceIds",
+    "targetField": "id",
+    "cardinality": "many"
+  }
+]

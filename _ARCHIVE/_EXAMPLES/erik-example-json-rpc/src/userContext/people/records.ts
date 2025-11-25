@@ -1,0 +1,148 @@
+/**
+ * @packageDocumentation People records data
+ *
+ * Employee directory records with skills, access, and organizational relationships.
+ */
+import type { PersonRecord } from "@internal-types/userContext.types";
+
+/**
+ * People records array
+ * Employee directory complete with capabilities and system access.
+ */
+export const peopleRecords: PersonRecord[] = [
+  {
+    id: "person-001",
+    name: "Elliot Harper",
+    email: "elliot.harper@example.com",
+    role: "Analytics Engineer",
+    departmentId: "dept-analytics",
+    managerId: "person-005",
+    location: "Remote - UK",
+    skills: ["python", "dbt", "sql", "dagster"],
+    applicationIds: ["app-aurora", "app-atlas"],
+    policyAcks: ["policy-data-handling"],
+    resourceIds: ["resource-analytics-playbook"],
+  },
+  {
+    id: "person-002",
+    name: "Priya Raman",
+    email: "priya.raman@example.com",
+    role: "Analytics Manager",
+    departmentId: "dept-analytics",
+    managerId: "person-006",
+    location: "San Francisco, CA",
+    skills: ["leadership", "analytics", "python", "tableau"],
+    applicationIds: ["app-aurora", "app-atlas", "app-tableau"],
+    policyAcks: ["policy-data-handling", "policy-manager-guidelines"],
+    resourceIds: ["resource-analytics-playbook", "resource-management-guide"],
+  },
+  {
+    id: "person-003",
+    name: "Marcus Chen",
+    email: "marcus.chen@example.com",
+    role: "Backend Engineer",
+    departmentId: "dept-engineering",
+    managerId: "person-007",
+    location: "Austin, TX",
+    skills: ["python", "docker", "kubernetes", "postgresql"],
+    applicationIds: ["app-aurora", "app-core-api"],
+    policyAcks: ["policy-security-standards"],
+    resourceIds: ["resource-eng-standards"],
+  },
+  {
+    id: "person-004",
+    name: "Sarah Kim",
+    email: "sarah.kim@example.com",
+    role: "DevOps Engineer",
+    departmentId: "dept-engineering",
+    managerId: "person-007",
+    location: "Seattle, WA",
+    skills: ["kubernetes", "terraform", "aws", "monitoring"],
+    applicationIds: ["app-aurora", "app-core-api", "app-monitoring"],
+    policyAcks: ["policy-security-standards", "policy-infrastructure"],
+    resourceIds: ["resource-eng-standards", "resource-devops-runbooks"],
+  },
+  {
+    id: "person-005",
+    name: "Dr. Amanda Foster",
+    email: "amanda.foster@example.com",
+    role: "Senior Analytics Manager",
+    departmentId: "dept-analytics",
+    managerId: "person-006",
+    location: "Remote - Canada",
+    skills: ["statistics", "r", "python", "leadership", "phd-statistics"],
+    applicationIds: ["app-aurora", "app-atlas", "app-tableau"],
+    policyAcks: ["policy-data-handling", "policy-manager-guidelines"],
+    resourceIds: ["resource-analytics-playbook", "resource-management-guide"],
+  },
+  {
+    id: "person-006",
+    name: "James Wilson",
+    email: "james.wilson@example.com",
+    role: "VP of Analytics",
+    departmentId: "dept-analytics",
+    location: "New York, NY",
+    skills: ["leadership", "strategy", "analytics", "business-intelligence"],
+    applicationIds: [
+      "app-aurora",
+      "app-atlas",
+      "app-tableau",
+      "app-executive-dashboard",
+    ],
+    policyAcks: [
+      "policy-data-handling",
+      "policy-manager-guidelines",
+      "policy-executive",
+    ],
+    resourceIds: [
+      "resource-analytics-playbook",
+      "resource-management-guide",
+      "resource-executive-resources",
+    ],
+  },
+  {
+    id: "person-007",
+    name: "Alex Rodriguez",
+    email: "alex.rodriguez@example.com",
+    role: "VP of Engineering",
+    departmentId: "dept-engineering",
+    location: "San Francisco, CA",
+    skills: [
+      "leadership",
+      "architecture",
+      "scaling",
+      "python",
+      "distributed-systems",
+    ],
+    applicationIds: [
+      "app-aurora",
+      "app-core-api",
+      "app-monitoring",
+      "app-executive-dashboard",
+    ],
+    policyAcks: [
+      "policy-security-standards",
+      "policy-infrastructure",
+      "policy-manager-guidelines",
+      "policy-executive",
+    ],
+    resourceIds: [
+      "resource-eng-standards",
+      "resource-devops-runbooks",
+      "resource-management-guide",
+      "resource-executive-resources",
+    ],
+  },
+  {
+    id: "person-008",
+    name: "Lisa Park",
+    email: "lisa.park@example.com",
+    role: "Compliance Officer",
+    departmentId: "dept-legal",
+    location: "Boston, MA",
+    skills: ["compliance", "policy-management", "risk-assessment", "legal"],
+    applicationIds: ["app-compliance-tracker"],
+    policyAcks: ["policy-all-policies-meta", "policy-compliance-standards"],
+    resourceIds: ["resource-policy-library", "resource-compliance-toolkit"],
+  },
+];

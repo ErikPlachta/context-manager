@@ -1,0 +1,16 @@
+{
+  "description": "Persona for an analytics engineer.",
+  "sample": {
+    "id": "person-001",
+    "name": "Elliot Harper",
+    "email": "elliot.harper@example.com",
+    "role": "Analytics Engineer",
+    "departmentId": "dept-analytics",
+    "managerId": "person-005",
+    "location": "Remote - UK",
+    "skills": ["python", "dbt", "sql", "dagster"],
+    "applicationIds": ["app-aurora", "app-atlas"],
+    "policyAcks": ["policy-data-handling"],
+    "resourceIds": ["resource-analytics-playbook"]
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "name": "context-manager",
+  "displayName": "Context Manager",
+  "description": "Skill-driven MCP Server for intelligent context management",
+  "version": "0.0.3",
+  "publisher": "context-manager",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/context-manager/context-manager.git"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/client/vs-code/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "context-manager.listTools",
+        "title": "List Available Tools",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.callTool",
+        "title": "Call Tool",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.readTodo",
+        "title": "Read TODO",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.updateTodo",
+        "title": "Update TODO",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.readContext",
+        "title": "Read Context",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.updateContext",
+        "title": "Update Context",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.createTodo",
+        "title": "Create TODO File",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.createContext",
+        "title": "Create Context File",
+        "category": "Context Manager"
+      },
+      {
+        "command": "context-manager.status",
+        "title": "Show Server Status",
+        "category": "Context Manager"
+      }
+    ],
+    "configuration": {
+      "title": "Context Manager",
+      "properties": {
+        "contextManager.debug": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable debug logging"
+        },
+        "contextManager.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically start MCP server on activation"
+        }
+      }
+    }
+  },
+  "scripts": {},
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4"
+  }
+}

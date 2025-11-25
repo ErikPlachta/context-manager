@@ -1,0 +1,29 @@
+[
+  {
+    "key": "department",
+    "name": "department",
+    "description": "Department maintaining the resource.",
+    "targetCategory": "departments",
+    "sourceField": "departmentId",
+    "targetField": "id",
+    "cardinality": "one"
+  },
+  {
+    "key": "policies",
+    "name": "linked policies",
+    "description": "Policies that reference the resource.",
+    "targetCategory": "companyPolicies",
+    "sourceField": "linkedPolicyIds",
+    "targetField": "id",
+    "cardinality": "many"
+  },
+  {
+    "key": "applications",
+    "name": "referenced applications",
+    "description": "Applications supported by the resource.",
+    "targetCategory": "applications",
+    "sourceField": "applicationIds",
+    "targetField": "id",
+    "cardinality": "many"
+  }
+]
